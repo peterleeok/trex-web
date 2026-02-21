@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 | Trex.so</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+body { font-family: 'Pretendard', sans-serif; }
+.gradient-text {
+background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Navigation -->
+<nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<a href="index.html" class="text-2xl font-bold text-blue-600"><i class="fa-solid fa-cube mr-2"></i>Trex.so</a>
+</div>
+<div class="hidden md:flex space-x-8">
+<a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">홈</a>
+<a href="market.html" class="text-gray-600 hover:text-blue-600 font-medium">블록 마켓</a>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- Login Section -->
+<section class="min-h-screen flex items-center justify-center py-24 px-4">
+<div class="max-w-md w-full">
+<!-- 헤더 안내 -->
+<div class="text-center mb-8">
+<h1 class="text-4xl font-bold mb-3">
+<span class="gradient-text">Trex.so</span> 시작하기
+</h1>
+<p class="text-gray-600 text-lg">여행 경험을 수익화하거나, 다른 사람의 블록으로 완벽한 여행을 만드세요</p>
+</div>
+
+<!-- 탭 -->
+<div class="flex gap-2 mb-6">
+<button class="flex-1 py-3 px-6 bg-gray-100 text-gray-600 font-bold rounded-t-xl" id="loginTab" onclick="showTab('login')">
+로그인
+</button>
+<button class="flex-1 py-3 px-6 bg-white text-blue-600 font-bold rounded-t-xl border-b-2 border-blue-600" id="signupTab" onclick="showTab('signup')">
+회원가입
+</button>
+</div>
+
+<!-- 로그인 폼 -->
+<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100" id="loginForm" style="display:none;">
+<div class="text-center mb-8">
+<h2 class="text-3xl font-bold text-gray-900 mb-2">환영합니다!</h2>
+<p class="text-gray-600">Trex.so에 로그인하세요</p>
+</div>
+
+<form onsubmit="handleLogin(event)">
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">이메일</label>
+<input type="email" id="loginEmail" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="your@email.com">
+</div>
+
+<div class="mb-6">
+<label class="block text-sm font-semibold text-gray-700 mb-2">비밀번호</label>
+<input type="password" id="loginPassword" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="••••••••">
+</div>
+
+<div class="flex items-center justify-between mb-6">
+<label class="flex items-center">
+<input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+<span class="ml-2 text-sm text-gray-600">로그인 상태 유지</span>
+</label>
+<a href="#" class="text-sm text-blue-600 hover:text-blue-700">비밀번호 찾기</a>
+</div>
+
+<button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg">
+로그인
+</button>
+</form>
+
+<div class="mt-6 text-center">
+<p class="text-sm text-gray-600">
+아직 계정이 없으신가요? 
+<a href="#" onclick="showTab('signup')" class="text-blue-600 font-semibold hover:text-blue-700">회원가입</a>
+</p>
+<p class="text-sm text-gray-600 mt-2">
+<a href="reset-password.html" class="text-gray-500 hover:text-blue-600">비밀번호를 잊으셨나요?</a>
+</p>
+</div>
+</div>
+
+<!-- 회원가입 폼 -->
+<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100" id="signupForm">
+<div class="text-center mb-8">
+<h2 class="text-3xl font-bold text-gray-900 mb-2">회원가입</h2>
+<p class="text-gray-600">Trex.so에서 여행 경험을 수익화하세요</p>
+</div>
+
+<form onsubmit="handleSignup(event)">
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">이메일</label>
+<input type="email" id="signupEmail" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="your@email.com">
+</div>
+
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">비밀번호</label>
+<input type="password" id="signupPassword" required minlength="6"
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="6자 이상 입력해주세요">
+</div>
+
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">비밀번호 확인</label>
+<input type="password" id="signupPasswordConfirm" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="비밀번호를 다시 입력해주세요">
+</div>
+
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">닉네임</label>
+<input type="text" id="signupNickname" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="서울로컬러버">
+</div>
+
+<div class="mb-6">
+<label class="block text-sm font-semibold text-gray-700 mb-2">회원 유형</label>
+<select id="signupUserType" required
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+<option value="">선택해주세요</option>
+<option value="creator">크리에이터 (블록 판매)</option>
+<option value="traveler">여행자 (블록 구매)</option>
+<option value="both">둘 다</option>
+</select>
+</div>
+
+<div class="mb-6">
+<label class="flex items-start">
+<input type="checkbox" required class="w-4 h-4 mt-1 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+<span class="ml-2 text-sm text-gray-600">
+<a href="#" class="text-blue-600 hover:text-blue-700">이용약관</a> 및 
+<a href="#" class="text-blue-600 hover:text-blue-700">개인정보처리방침</a>에 동의합니다
+</span>
+</label>
+</div>
+
+<button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg">
+회원가입
+</button>
+</form>
+
+<div class="mt-6 text-center">
+<p class="text-sm text-gray-600">
+이미 계정이 있으신가요? 
+<a href="#" onclick="showTab('login')" class="text-blue-600 font-semibold hover:text-blue-700">로그인</a>
+</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 토스트 알림 -->
+<div class="fixed bottom-6 right-6 z-50 space-y-3" id="toastContainer"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  Authentication System
+// ═══════════════════════════════════════════════════════
+
+// 탭 전환
+function showTab(tab) {
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
+  const loginTab = document.getElementById('loginTab');
+  const signupTab = document.getElementById('signupTab');
+
+  if (tab === 'login') {
+    loginForm.style.display = 'block';
+    signupForm.style.display = 'none';
+    loginTab.classList.add('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+    loginTab.classList.remove('bg-gray-100', 'text-gray-600');
+    signupTab.classList.remove('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+    signupTab.classList.add('bg-gray-100', 'text-gray-600');
+  } else {
+    loginForm.style.display = 'none';
+    signupForm.style.display = 'block';
+    signupTab.classList.add('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+    signupTab.classList.remove('bg-gray-100', 'text-gray-600');
+    loginTab.classList.remove('bg-white', 'text-blue-600', 'border-b-2', 'border-blue-600');
+    loginTab.classList.add('bg-gray-100', 'text-gray-600');
+  }
+}
+
+// 회원가입 처리
+async function handleSignup(event) {
+  event.preventDefault();
+
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+  const nickname = document.getElementById('signupNickname').value;
+  const userType = document.getElementById('signupUserType').value;
+
+  // 비밀번호 확인
+  if (password !== passwordConfirm) {
+    showToast('비밀번호가 일치하지 않습니다', 'error');
+    return;
+  }
+
+  // 비밀번호 해시 (간단한 해시 - 실제로는 서버에서 bcrypt 사용 권장)
+  const hashedPassword = await simpleHash(password);
+
+  try {
+    const response = await fetch('tables/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        password: hashedPassword,
+        nickname: nickname,
+        user_type: userType,
+        profile_image: '',
+        created_at: new Date().toISOString(),
+        last_login: new Date().toISOString(),
+        status: 'active'
+      })
+    });
+
+    if (response.ok) {
+      const newUser = await response.json();
+      showToast('🎉 회원가입 완료!', 'success');
+      
+      // 자동 로그인: localStorage에 사용자 정보 저장
+      localStorage.setItem('trex_user', JSON.stringify({
+        id: newUser.id,
+        email: newUser.email,
+        nickname: newUser.nickname,
+        user_type: newUser.user_type,
+        profile_image: newUser.profile_image,
+        created_at: newUser.created_at
+      }));
+      
+      // 메인 페이지로 이동
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1000);
+    } else {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+  } catch (error) {
+    console.error('Signup error:', error);
+    showToast('회원가입 실패: ' + error.message, 'error');
+  }
+}
+
+// 로그인 처리
+async function handleLogin(event) {
+  event.preventDefault();
+
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const hashedPassword = await simpleHash(password);
+
+  try {
+    // 사용자 조회
+    const response = await fetch(`tables/users?search=${encodeURIComponent(email)}`);
+    const data = await response.json();
+
+    if (data.data && data.data.length > 0) {
+      const user = data.data.find(u => u.email === email);
+      
+      if (user && user.password === hashedPassword) {
+        // 로그인 성공
+        showToast('✅ 로그인 성공!', 'success');
+        
+        // 세션 저장
+        localStorage.setItem('trex_user', JSON.stringify({
+          id: user.id,
+          email: user.email,
+          nickname: user.nickname,
+          user_type: user.user_type,
+          profile_image: user.profile_image,
+          created_at: user.created_at
+        }));
+
+        // 마지막 로그인 시간 업데이트
+        await fetch(`tables/users/${user.id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            last_login: new Date().toISOString()
+          })
+        });
+
+        // 메인 페이지로 이동
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000);
+      } else {
+        showToast('이메일 또는 비밀번호가 일치하지 않습니다', 'error');
+      }
+    } else {
+      showToast('등록되지 않은 이메일입니다', 'error');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    showToast('로그인 실패: ' + error.message, 'error');
+  }
+}
+
+// 간단한 비밀번호 해시 함수 (실제로는 서버에서 bcrypt 사용 권장)
+async function simpleHash(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// 토스트 알림
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+  const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+  
+  toast.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in`;
+  toast.innerHTML = `
+    <i class="fa-solid fa-${icon} text-xl"></i>
+    <span>${message}</span>`;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => { 
+    toast.style.opacity = '0'; 
+    toast.style.transform = 'translateX(100px)';
+    toast.style.transition = 'all 0.3s';
+    setTimeout(() => toast.remove(), 300); 
+  }, 3000);
+}
+</script>
+
+<style>
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in { animation: slide-in 0.3s ease-out; }
+</style>
+
+</body>
+</html>
