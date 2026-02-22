@@ -222,24 +222,22 @@ async function handleSignup(event) {
     return;
   }
 
-  // 비밀번호 해시 (간단한 해시 - 실제로는 서버에서 bcrypt 사용 권장)
-  const hashedPassword = await simpleHash(password);
-
-  try {
-    const response = await fetch('tables/users', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        password: hashedPassword,
-        nickname: nickname,
-        user_type: userType,
-        profile_image: '',
-        created_at: new Date().toISOString(),
-        last_login: new Date().toISOString(),
-        status: 'active'
-      })
+// 229번 라인 부근부터 주석 처리 시작
+/* const response = await fetch('tables/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: email,
+            password: hashedPassword,
+            nickname: nickname,
+            user_type: userType,
+            profile_image: '',
+            created_at: new Date().toISOString(),
+            last_login: new Date().toISOString(),
+            status: 'active'
+        })
     });
+*/ // 주석 처리 끝
 
     if (response.ok) {
       const newUser = await response.json();
