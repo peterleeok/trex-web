@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Trex.so</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/spacex-design-system.css">
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center">
+
+<!-- Login Container -->
+<div class="w-full max-w-md px-4">
+    <!-- Logo -->
+    <div class="text-center mb-12">
+        <a href="index.html" class="inline-block">
+            <img src="images/trex-logo-full.png" alt="Trex.so - Travel. Assemble. Play." class="h-16 mx-auto mb-4">
+        </a>
+        <h1 class="text-3xl font-black tracking-tighter mb-2">
+            <span class="text-white">ADMIN</span> <span class="text-[#00AEF0]">LOGIN</span>
+        </h1>
+        <p class="text-sm text-gray-400">관리자 전용 로그인</p>
+    </div>
+
+    <!-- Admin Login Form -->
+    <form id="adminLoginForm" class="space-y-4">
+        <div>
+            <label class="block text-sm font-semibold text-gray-400 mb-2">
+                관리자 이메일
+            </label>
+            <input type="email" 
+                   id="adminEmail" 
+                   required
+                   placeholder="admin@trex.so"
+                   class="input-spacex w-full">
+        </div>
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-400 mb-2">
+                관리자 비밀번호
+            </label>
+            <input type="password" 
+                   id="adminPassword" 
+                   required
+                   placeholder="••••••••"
+                   class="input-spacex w-full">
+        </div>
+        
+        <button type="submit" 
+                class="w-full bg-[#00AEF0] text-black py-4 btn-sharp font-bold hover-glow transition tracking-tight">
+            <i class="fas fa-shield-alt mr-2"></i>관리자 로그인
+        </button>
+        
+        <div class="text-center pt-4">
+            <a href="login.html" class="text-sm text-gray-400 hover:text-[#00AEF0] transition tracking-tight">
+                <i class="fas fa-arrow-left mr-2"></i>일반 로그인으로 돌아가기
+            </a>
+        </div>
+    </form>
+
+    <!-- Info Box -->
+    <div class="mt-8 p-4 bg-[#121212] border border-[#00AEF0]/30 rounded-sm">
+        <h3 class="text-sm font-bold text-[#00AEF0] mb-3">
+            <i class="fas fa-key mr-2"></i>기본 관리자 계정
+        </h3>
+        <div class="space-y-2 text-xs">
+            <div class="flex items-center justify-between p-2 bg-black rounded-sm">
+                <span class="text-gray-400">이메일:</span>
+                <span class="text-white font-mono">admin@trex.so</span>
+            </div>
+            <div class="flex items-center justify-between p-2 bg-black rounded-sm">
+                <span class="text-gray-400">비밀번호:</span>
+                <span class="text-white font-mono">1111</span>
+            </div>
+        </div>
+        <p class="text-xs text-gray-500 mt-3 leading-relaxed">
+            위 계정으로 로그인하면 모든 블록, 사용자, 크리에이터 신청을 관리할 수 있습니다.
+        </p>
+    </div>
+    
+    <!-- Additional Info -->
+    <div class="mt-4 p-4 bg-[#121212] border border-gray-800 rounded-sm">
+        <h3 class="text-sm font-bold text-gray-400 mb-2">
+            <i class="fas fa-info-circle mr-2"></i>관리자 권한
+        </h3>
+        <ul class="text-xs text-gray-400 space-y-1 leading-relaxed">
+            <li><i class="fas fa-check text-[#00AEF0] mr-2"></i>블록 승인/거절/삭제</li>
+            <li><i class="fas fa-check text-[#00AEF0] mr-2"></i>사용자 관리 (크리에이터 승급)</li>
+            <li><i class="fas fa-check text-[#00AEF0] mr-2"></i>크리에이터 신청 확인</li>
+            <li><i class="fas fa-check text-[#00AEF0] mr-2"></i>실시간 통계 조회</li>
+        </ul>
+    </div>
+    
+    <!-- Quick Admin Setup -->
+    <div class="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-sm">
+        <h3 class="text-sm font-bold text-red-500 mb-2">
+            <i class="fas fa-wrench mr-2"></i>빠른 관리자 설정
+        </h3>
+        <p class="text-xs text-gray-400 mb-3">
+            기존 계정에 관리자 권한을 부여하려면 아래 버튼을 클릭하세요.
+        </p>
+        <button onclick="setupAdmin()" 
+                class="w-full bg-red-500 text-black py-3 rounded-sm font-bold hover:bg-red-600 transition text-sm">
+            <i class="fas fa-user-shield mr-2"></i>내 계정을 관리자로 설정
+        </button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // Admin login
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('adminEmail').value;
+        const password = document.getElementById('adminPassword').value;
+        
+        try {
+            // Hash password
+            const hashedPassword = await hashPassword(password);
+            
+            // Find user
+            const response = await fetch(`tables/users?search=${encodeURIComponent(email)}`);
+            const data = await response.json();
+            
+            const user = data.data.find(u => u.email === email && u.password === hashedPassword);
+            
+            if (!user) {
+                alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+                return;
+            }
+            
+            // Check admin permission
+            if (!user.isAdmin) {
+                alert('관리자 권한이 없습니다.');
+                return;
+            }
+            
+            // Save session
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            alert('관리자 로그인 성공!');
+            window.location.href = 'admin.html';
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('로그인 중 오류가 발생했습니다.');
+        }
+    });
+    
+    // Setup admin
+    async function setupAdmin() {
+        const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+        
+        if (!currentUser) {
+            alert('먼저 일반 로그인을 해주세요.');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        if (currentUser.isAdmin) {
+            alert('이미 관리자 권한이 있습니다!');
+            window.location.href = 'admin.html';
+            return;
+        }
+        
+        if (!confirm(`${currentUser.email} 계정에 관리자 권한을 부여하시겠습니까?`)) {
+            return;
+        }
+        
+        try {
+            // Update user to admin
+            await fetch(`tables/users/${currentUser.id}`, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ 
+                    isAdmin: true,
+                    isCreator: true // 관리자는 자동으로 크리에이터도 됨
+                })
+            });
+            
+            // Update local storage
+            currentUser.isAdmin = true;
+            currentUser.isCreator = true;
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            
+            alert('관리자 권한이 부여되었습니다!');
+            window.location.href = 'admin.html';
+            
+        } catch (error) {
+            console.error('Error setting admin:', error);
+            alert('관리자 설정 중 오류가 발생했습니다.');
+        }
+    }
+    
+    // Hash password
+    async function hashPassword(password) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
+    }
+</script>
+
+</body>
+</html>

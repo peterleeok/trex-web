@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블록 마켓 | Trex.so</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+body { font-family: 'Pretendard', sans-serif; }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Navigation -->
+<nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<a href="index.html" class="flex items-center space-x-2 group">
+<img src="images/trex-logo.png" alt="Trex.so Logo" class="h-10 w-auto transition-transform group-hover:scale-105">
+<span class="text-xl font-bold text-gray-800 hidden sm:inline">Trex.so</span>
+</a>
+</div>
+<div class="hidden md:flex space-x-8">
+<a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">홈</a>
+<a href="upload.html" class="text-gray-600 hover:text-blue-600 font-medium">경험 업로드</a>
+<a href="market.html" class="text-blue-600 font-semibold">블록 마켓</a>
+</div>
+<div id="authButtons" class="flex items-center space-x-4">
+<button id="cartButton" class="relative bg-blue-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-700 transition">
+<i class="fa-solid fa-shopping-cart mr-2"></i>장바구니
+<span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">0</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-24 pb-12 bg-gradient-to-br from-purple-50 to-pink-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<div class="inline-block bg-purple-100 text-purple-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+<i class="fa-solid fa-map-location-dot mr-2"></i>여행 블록 마켓
+</div>
+<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+다른 사람의 블록을<br>조립하여 완벽한 일정을 만드세요
+</h1>
+<p class="text-xl text-gray-600 mb-8">
+현지인이 검증한 진짜 여행 정보를 마이크로 가격으로 구매하세요.<br>
+AI가 최적의 일정으로 조립해 드립니다.
+</p>
+</div>
+</section>
+
+<!-- Filter Section -->
+<section class="py-6 bg-white border-b sticky top-16 z-40">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-wrap gap-3">
+<button onclick="filterBlocks('all')" class="filter-btn active px-4 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
+전체
+</button>
+<button onclick="filterBlocks('식당')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
+식당
+</button>
+<button onclick="filterBlocks('카페')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
+카페
+</button>
+<button onclick="filterBlocks('K-뷰티')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
+K-뷰티
+</button>
+<button onclick="filterBlocks('관광지')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
+관광지
+</button>
+<button onclick="filterBlocks('쇼핑')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition">
+쇼핑
+</button>
+</div>
+</div>
+</section>
+
+<!-- Blocks Grid -->
+<section class="py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-2xl font-bold text-gray-900">
+<span id="blockCount">0</span>개의 여행 블록
+</h2>
+<select id="sortSelect" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+<option value="popular">인기순</option>
+<option value="rating">평점순</option>
+<option value="price-low">가격 낮은순</option>
+<option value="price-high">가격 높은순</option>
+</select>
+</div>
+
+<div id="blocksGrid" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+<!-- Blocks will be loaded here -->
+</div>
+
+<div id="loading" class="text-center py-12">
+<i class="fa-solid fa-spinner fa-spin text-4xl text-blue-600"></i>
+<p class="text-gray-600 mt-4">블록을 불러오는 중...</p>
+</div>
+
+<div id="noResults" class="hidden text-center py-12">
+<i class="fa-solid fa-search text-4xl text-gray-400 mb-4"></i>
+<p class="text-gray-600">검색 결과가 없습니다.</p>
+</div>
+</div>
+</section>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+<div class="p-6 border-b flex justify-between items-center">
+<h3 class="text-2xl font-bold text-gray-900">
+<i class="fa-solid fa-shopping-cart text-blue-600 mr-2"></i>내 장바구니
+</h3>
+<button onclick="closeCart()" class="text-gray-500 hover:text-gray-700">
+<i class="fa-solid fa-times text-2xl"></i>
+</button>
+</div>
+<div id="cartItems" class="flex-1 overflow-y-auto p-6">
+<!-- Cart items will be loaded here -->
+</div>
+<div class="p-6 border-t bg-gray-50">
+<div class="flex justify-between items-center mb-4">
+<span class="text-lg font-bold">총 금액:</span>
+<span id="totalPrice" class="text-2xl font-bold text-blue-600">$0.00</span>
+</div>
+<button onclick="assembleTrip()" class="w-full bg-blue-600 text-white px-6 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition">
+<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>AI로 일정 조립하기
+</button>
+</div>
+</div>
+</div>
+
+<!-- Assembly Modal -->
+<div id="assemblyModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div class="bg-white rounded-2xl max-w-3xl w-full max-h-[80vh] overflow-hidden">
+<div class="p-6 border-b">
+<h3 class="text-2xl font-bold text-gray-900">
+<i class="fa-solid fa-calendar-check text-blue-600 mr-2"></i>일정 조립 완료!
+</h3>
+</div>
+<div class="p-6 overflow-y-auto">
+<div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
+<div class="flex items-center mb-4">
+<i class="fa-solid fa-check-circle text-green-500 text-3xl mr-4"></i>
+<div>
+<h4 class="text-xl font-bold text-green-900">여행 일정이 생성되었습니다!</h4>
+<p class="text-green-700 text-sm mt-1">AI가 동선과 시간을 최적화하여 일정을 조립했습니다.</p>
+</div>
+</div>
+</div>
+<div id="assembledTrip" class="space-y-4">
+<!-- Assembled trip will be shown here -->
+</div>
+<button onclick="closeAssembly()" class="w-full mt-6 bg-blue-600 text-white px-6 py-4 rounded-xl text-lg font-bold hover:bg-blue-700 transition">
+확인
+</button>
+</div>
+</div>
+</div>
+
+<script>
+let allBlocks = [];
+let cart = [];
+let currentFilter = 'all';
+
+// Load blocks from database
+async function loadBlocks() {
+    try {
+        const response = await fetch('tables/blocks?status=approved&limit=100');
+        const data = await response.json();
+        allBlocks = data.data || [];
+        displayBlocks(allBlocks);
+        document.getElementById('loading').style.display = 'none';
+    } catch (error) {
+        console.error('Error loading blocks:', error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('noResults').classList.remove('hidden');
+    }
+}
+
+// Display blocks
+function displayBlocks(blocks) {
+    const grid = document.getElementById('blocksGrid');
+    document.getElementById('blockCount').textContent = blocks.length;
+    
+    if (blocks.length === 0) {
+        grid.innerHTML = '';
+        document.getElementById('noResults').classList.remove('hidden');
+        return;
+    }
+    
+    document.getElementById('noResults').classList.add('hidden');
+    
+    grid.innerHTML = blocks.map(block => `
+        <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 relative group cursor-pointer hover:shadow-xl transition">
+            <img src="${block.image_url}" alt="${block.title}" class="w-full h-48 object-cover group-hover:scale-105 transition duration-300">
+            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-sm font-bold text-blue-600">
+                $${block.price.toFixed(2)}
+            </div>
+            <div class="p-4">
+                <div class="flex items-center space-x-1 text-xs text-gray-500 mb-2">
+                    <i class="fa-solid fa-star text-yellow-400"></i> 
+                    ${block.rating.toFixed(1)} (${block.purchase_count} 구매)
+                </div>
+                <h4 class="font-bold text-gray-900 mb-1 line-clamp-2">${block.title}</h4>
+                <p class="text-xs text-gray-500 mb-3">
+                    <i class="fa-solid fa-location-dot"></i> ${block.location}
+                </p>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-6 h-6 rounded-full bg-gray-200"></div>
+                        <span class="text-xs font-medium">${block.creator_name}</span>
+                    </div>
+                    <button onclick="addToCart('${block.id}')" class="text-blue-600 hover:bg-blue-50 p-2 rounded-full">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Filter blocks
+function filterBlocks(category) {
+    currentFilter = category;
+    
+    // Update button styles
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-blue-600', 'text-white');
+        btn.classList.add('bg-gray-200', 'text-gray-700');
+    });
+    event.target.classList.add('active', 'bg-blue-600', 'text-white');
+    event.target.classList.remove('bg-gray-200', 'text-gray-700');
+    
+    const filtered = category === 'all' 
+        ? allBlocks 
+        : allBlocks.filter(block => block.category === category);
+    
+    displayBlocks(filtered);
+}
+
+// Sort blocks
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+    const sortBy = e.target.value;
+    let sorted = [...allBlocks];
+    
+    switch(sortBy) {
+        case 'popular':
+            sorted.sort((a, b) => b.purchase_count - a.purchase_count);
+            break;
+        case 'rating':
+            sorted.sort((a, b) => b.rating - a.rating);
+            break;
+        case 'price-low':
+            sorted.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-high':
+            sorted.sort((a, b) => b.price - a.price);
+            break;
+    }
+    
+    displayBlocks(sorted);
+});
+
+// Add to cart
+function addToCart(blockId) {
+    const block = allBlocks.find(b => b.id === blockId);
+    if (block && !cart.find(item => item.id === blockId)) {
+        cart.push(block);
+        updateCartUI();
+        
+        // Show notification
+        const notification = document.createElement('div');
+        notification.className = 'fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+        notification.innerHTML = '<i class="fa-solid fa-check mr-2"></i>장바구니에 추가되었습니다!';
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 2000);
+    }
+}
+
+// Remove from cart
+function removeFromCart(blockId) {
+    cart = cart.filter(item => item.id !== blockId);
+    updateCartUI();
+}
+
+// Update cart UI
+function updateCartUI() {
+    document.getElementById('cartCount').textContent = cart.length;
+    
+    const cartItems = document.getElementById('cartItems');
+    const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
+    document.getElementById('totalPrice').textContent = `$${totalPrice.toFixed(2)}`;
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = `
+            <div class="text-center py-12">
+                <i class="fa-solid fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600">장바구니가 비어있습니다</p>
+            </div>
+        `;
+    } else {
+        cartItems.innerHTML = cart.map(item => `
+            <div class="flex items-center gap-4 p-4 border border-gray-200 rounded-xl mb-3">
+                <img src="${item.image_url}" alt="${item.title}" class="w-20 h-20 object-cover rounded-lg">
+                <div class="flex-1">
+                    <h4 class="font-bold text-gray-900">${item.title}</h4>
+                    <p class="text-sm text-gray-500">${item.location}</p>
+                    <p class="text-blue-600 font-bold mt-1">$${item.price.toFixed(2)}</p>
+                </div>
+                <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:bg-red-50 p-2 rounded-lg">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        `).join('');
+    }
+}
+
+// Open cart
+document.getElementById('cartButton').addEventListener('click', () => {
+    document.getElementById('cartModal').classList.remove('hidden');
+});
+
+// Close cart
+function closeCart() {
+    document.getElementById('cartModal').classList.add('hidden');
+}
+
+// Assemble trip
+async function assembleTrip() {
+    if (cart.length === 0) {
+        alert('장바구니에 블록을 추가해주세요!');
+        return;
+    }
+    
+    const tripData = {
+        user_name: 'Guest User',
+        user_email: 'guest@example.com',
+        trip_title: `나의 여행 (${new Date().toLocaleDateString()})`,
+        selected_blocks: cart.map(b => b.id),
+        total_price: cart.reduce((sum, item) => sum + item.price, 0),
+        trip_date: new Date().toISOString(),
+        status: 'planning'
+    };
+    
+    try {
+        const response = await fetch('tables/trips', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tripData)
+        });
+        
+        if (response.ok) {
+            closeCart();
+            showAssembledTrip();
+        }
+    } catch (error) {
+        console.error('Error creating trip:', error);
+        alert('일정 생성에 실패했습니다.');
+    }
+}
+
+// Show assembled trip
+function showAssembledTrip() {
+    const assembledTrip = document.getElementById('assembledTrip');
+    assembledTrip.innerHTML = cart.map((block, index) => `
+        <div class="bg-white border border-gray-200 rounded-xl p-4">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                    ${index + 1}
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-gray-900 mb-1">${block.title}</h4>
+                    <p class="text-sm text-gray-600 mb-2">${block.location}</p>
+                    <div class="bg-blue-50 rounded-lg p-3 text-sm text-gray-700">
+                        <i class="fa-solid fa-lightbulb text-blue-600 mr-1"></i>
+                        ${block.tips || block.description.substring(0, 100)}...
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('assemblyModal').classList.remove('hidden');
+    cart = [];
+    updateCartUI();
+}
+
+// Close assembly modal
+function closeAssembly() {
+    document.getElementById('assemblyModal').classList.add('hidden');
+}
+
+// Initialize
+loadBlocks();
+</script>
+
+<!-- 인증 시스템 통합 -->
+<script src="js/auth.js"></script>
+<script>
+// 페이지 로드 시 헤더 업데이트
+window.addEventListener('DOMContentLoaded', () => {
+    renderUserInHeader('authButtons', true); // true = 장바구니 버튼 유지
+});
+
+// 장바구니 추가 시 로그인 체크 (기존 addToCart 함수 수정)
+const originalAddToCart = window.addToCart;
+window.addToCart = function(blockId) {
+    if (!isLoggedIn()) {
+        if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+            window.location.href = 'login.html';
+        }
+        return;
+    }
+    originalAddToCart(blockId);
+};
+</script>
+
+</body>
+</html>

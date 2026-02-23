@@ -5,7 +5,7 @@
 
 // 현재 로그인한 사용자 정보 가져오기
 function getCurrentUser() {
-  const userJson = localStorage.getItem('trex_user');
+  const userJson = localStorage.getItem('user');
   return userJson ? JSON.parse(userJson) : null;
 }
 
@@ -16,8 +16,8 @@ function isLoggedIn() {
 
 // 로그아웃
 function logout() {
-  localStorage.removeItem('trex_user');
-  window.location.href = 'login.html';
+  localStorage.removeItem('user');
+  window.location.href = 'index.html';
 }
 
 // 로그인 필수 페이지 체크
@@ -43,7 +43,7 @@ async function updateUserProfile(userId, updates) {
       // 로컬 스토리지 업데이트
       const currentUser = getCurrentUser();
       const updatedUser = { ...currentUser, ...updates };
-      localStorage.setItem('trex_user', JSON.stringify(updatedUser));
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       return { success: true };
     } else {
       throw new Error('프로필 업데이트 실패');
@@ -70,9 +70,17 @@ function renderUserInHeader(targetId = 'authButtons', keepCart = false) {
       </button>
     ` : '';
     
+    // 관리자 메뉴
+    const adminButton = user.isAdmin ? `
+      <a href="admin.html" class="bg-red-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600 transition text-sm">
+        <i class="fa-solid fa-shield-alt mr-1"></i>관리자
+      </a>
+    ` : '';
+    
     targetDiv.innerHTML = `
       <div class="flex items-center space-x-4">
         ${cartButton}
+        ${adminButton}
         <a href="profile.html" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition">
           <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
             ${(user.nickname || 'U').charAt(0).toUpperCase()}

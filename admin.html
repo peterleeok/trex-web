@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Trex.so</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
+    
+    <!-- SpaceX Design System -->
+    <link rel="stylesheet" href="css/spacex-design-system.css">
+    
+    <style>
+        .admin-card {
+            transition: all 0.2s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-2px);
+            border-color: #00AEF0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .status-pending {
+            background: #FFA500;
+            color: #000;
+        }
+        
+        .status-approved {
+            background: #00FF00;
+            color: #000;
+        }
+        
+        .status-rejected {
+            background: #FF0000;
+            color: #FFF;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="spacex-nav">
+        <div class="spacex-container">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="images/trex-logo-full.png" alt="Trex.so - Travel. Assemble. Play." class="h-8 w-auto">
+                    <span class="text-xl font-bold tracking-tight">Trex.so</span>
+                    <span class="px-3 py-1 bg-red-500 text-black text-xs font-bold rounded-sm ml-2">ADMIN</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="spacex-nav-link">홈</a>
+                    <a href="admin.html" class="spacex-nav-link-active">관리자</a>
+                    <a href="creator-studio.html" class="spacex-nav-link">크리에이터 스튜디오</a>
+                    <a href="market.html" class="spacex-nav-link">블록 마켓</a>
+                </div>
+                
+                <!-- Logout Button -->
+                <div class="flex items-center space-x-4">
+                    <div id="adminInfo" class="hidden md:flex items-center space-x-3">
+                        <span class="text-sm text-gray-400">Admin</span>
+                        <button onclick="logout()" class="spacex-btn-secondary text-sm px-4 py-2">
+                            <i class="fas fa-sign-out-alt mr-2"></i>로그아웃
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="index.html" class="spacex-nav-link">홈</a>
+                    <a href="admin.html" class="spacex-nav-link-active">관리자</a>
+                    <a href="creator-studio.html" class="spacex-nav-link">크리에이터 스튜디오</a>
+                    <a href="market.html" class="spacex-nav-link">블록 마켓</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-12">
+        <div class="spacex-container">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="spacex-headline mb-4">Admin Dashboard</h1>
+                    <p class="spacex-body-large text-gray-400">
+                        Trex.so 관리자 대시보드 - 모든 콘텐츠와 사용자를 관리하세요
+                    </p>
+                </div>
+                
+                <button onclick="refreshData()" class="spacex-btn-secondary px-6 py-3">
+                    <i class="fas fa-sync-alt mr-2"></i>새로고침
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Overview -->
+    <section class="pb-12">
+        <div class="spacex-container">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="admin-card spacex-card text-center">
+                    <div class="text-gray-400 text-sm mb-2">총 사용자</div>
+                    <div id="totalUsers" class="text-4xl font-bold text-[#00AEF0]">0</div>
+                </div>
+                
+                <div class="admin-card spacex-card text-center">
+                    <div class="text-gray-400 text-sm mb-2">총 블록</div>
+                    <div id="totalBlocks" class="text-4xl font-bold text-[#00AEF0]">0</div>
+                </div>
+                
+                <div class="admin-card spacex-card text-center">
+                    <div class="text-gray-400 text-sm mb-2">대기 중</div>
+                    <div id="pendingBlocks" class="text-4xl font-bold text-yellow-500">0</div>
+                </div>
+                
+                <div class="admin-card spacex-card text-center">
+                    <div class="text-gray-400 text-sm mb-2">총 매출</div>
+                    <div id="totalRevenue" class="text-4xl font-bold text-green-500">$0</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs -->
+    <section class="pb-20">
+        <div class="spacex-container">
+            <!-- Tab Buttons -->
+            <div class="flex flex-wrap gap-3 mb-8 border-b border-gray-800 pb-4">
+                <button class="tab-btn active spacex-btn-secondary px-6 py-3" data-tab="blocks">
+                    <i class="fas fa-cube mr-2"></i>블록 관리
+                </button>
+                <button class="tab-btn spacex-btn-secondary px-6 py-3" data-tab="users">
+                    <i class="fas fa-users mr-2"></i>사용자 관리
+                </button>
+                <button class="tab-btn spacex-btn-secondary px-6 py-3" data-tab="creators">
+                    <i class="fas fa-user-tie mr-2"></i>크리에이터 신청
+                </button>
+                <button class="tab-btn spacex-btn-secondary px-6 py-3" data-tab="settings">
+                    <i class="fas fa-cog mr-2"></i>사이트 설정
+                </button>
+            </div>
+            
+            <!-- Tab Content: Blocks -->
+            <div id="blocksTab" class="tab-content active">
+                <div class="spacex-card">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold">블록 승인 관리</h2>
+                        <select id="blockFilter" class="bg-[#121212] border border-gray-800 text-white px-4 py-2 rounded-sm">
+                            <option value="all">전체</option>
+                            <option value="pending">대기 중</option>
+                            <option value="approved">승인됨</option>
+                            <option value="rejected">거절됨</option>
+                        </select>
+                    </div>
+                    
+                    <div id="blocksList" class="space-y-4">
+                        <!-- Blocks will be loaded here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="blocksEmpty" class="hidden text-center py-12">
+                        <i class="fas fa-cube text-5xl text-gray-800 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-400 mb-2">블록이 없습니다</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Content: Users -->
+            <div id="usersTab" class="tab-content">
+                <div class="spacex-card">
+                    <h2 class="text-2xl font-bold mb-6">사용자 관리</h2>
+                    
+                    <div id="usersList" class="space-y-4">
+                        <!-- Users will be loaded here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="usersEmpty" class="hidden text-center py-12">
+                        <i class="fas fa-users text-5xl text-gray-800 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-400 mb-2">사용자가 없습니다</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Content: Creators -->
+            <div id="creatorsTab" class="tab-content">
+                <div class="spacex-card">
+                    <h2 class="text-2xl font-bold mb-6">크리에이터 사전 등록 신청</h2>
+                    
+                    <div id="creatorsList" class="space-y-4">
+                        <!-- Creators will be loaded here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="creatorsEmpty" class="hidden text-center py-12">
+                        <i class="fas fa-user-tie text-5xl text-gray-800 mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-400 mb-2">신청이 없습니다</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab Content: Settings -->
+            <div id="settingsTab" class="tab-content">
+                <div class="spacex-card">
+                    <h2 class="text-2xl font-bold mb-6">사이트 설정</h2>
+                    
+                    <div class="space-y-8">
+                        <!-- Database Management -->
+                        <div class="border-b border-gray-800 pb-6">
+                            <h3 class="text-xl font-bold mb-4">데이터베이스 관리</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button onclick="exportData()" class="spacex-btn-secondary w-full">
+                                    <i class="fas fa-download mr-2"></i>데이터 내보내기
+                                </button>
+                                <button onclick="clearAllData()" class="border border-red-500 text-red-500 px-6 py-3 rounded-sm hover:bg-red-500 hover:text-white transition-colors w-full">
+                                    <i class="fas fa-trash mr-2"></i>모든 데이터 삭제
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Admin Tools -->
+                        <div class="border-b border-gray-800 pb-6">
+                            <h3 class="text-xl font-bold mb-4">관리 도구</h3>
+                            <div class="space-y-3">
+                                <button onclick="viewLogs()" class="spacex-btn-secondary w-full text-left">
+                                    <i class="fas fa-file-alt mr-2"></i>시스템 로그 확인
+                                </button>
+                                <button onclick="viewAnalytics()" class="spacex-btn-secondary w-full text-left">
+                                    <i class="fas fa-chart-line mr-2"></i>분석 대시보드
+                                </button>
+                                <button onclick="manageFiles()" class="spacex-btn-secondary w-full text-left">
+                                    <i class="fas fa-folder mr-2"></i>파일 관리
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div>
+                            <h3 class="text-xl font-bold mb-4">빠른 작업</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <a href="upload.html" class="spacex-btn-primary text-center">
+                                    <i class="fas fa-plus mr-2"></i>새 블록 생성
+                                </a>
+                                <a href="creator-studio.html" class="spacex-btn-secondary text-center">
+                                    <i class="fas fa-chart-bar mr-2"></i>크리에이터 스튜디오
+                                </a>
+                                <a href="market.html" class="spacex-btn-secondary text-center">
+                                    <i class="fas fa-store mr-2"></i>블록 마켓 보기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 py-12">
+        <div class="spacex-container text-center text-gray-500">
+            <p class="mb-2">&copy; 2026 Trex.so. All rights reserved.</p>
+            <p class="text-sm">Admin Dashboard v1.0</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Check admin access
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            
+            // Check if user is admin
+            if (!user || !user.isAdmin) {
+                alert('관리자 권한이 필요합니다.');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+            
+            // Display admin info
+            document.getElementById('adminInfo').classList.remove('hidden');
+            
+            // Load data
+            loadStats();
+            loadBlocks();
+            loadUsers();
+            loadCreators();
+        });
+        
+        // Load statistics
+        async function loadStats() {
+            try {
+                // Load users
+                const usersRes = await fetch('tables/users?limit=1000');
+                const usersData = await usersRes.json();
+                document.getElementById('totalUsers').textContent = usersData.data.length;
+                
+                // Load blocks
+                const blocksRes = await fetch('tables/blocks?limit=1000');
+                const blocksData = await blocksRes.json();
+                document.getElementById('totalBlocks').textContent = blocksData.data.length;
+                
+                // Count pending blocks
+                const pending = blocksData.data.filter(b => b.status === 'pending').length;
+                document.getElementById('pendingBlocks').textContent = pending;
+                
+                // Calculate revenue
+                const revenue = blocksData.data.reduce((sum, block) => {
+                    return sum + ((block.price || 0) * (block.purchases || 0));
+                }, 0);
+                document.getElementById('totalRevenue').textContent = `$${revenue.toFixed(2)}`;
+                
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        // Load blocks
+        async function loadBlocks() {
+            try {
+                const response = await fetch('tables/blocks?limit=1000');
+                const data = await response.json();
+                
+                const list = document.getElementById('blocksList');
+                const empty = document.getElementById('blocksEmpty');
+                
+                if (data.data.length === 0) {
+                    list.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                
+                list.classList.remove('hidden');
+                empty.classList.add('hidden');
+                
+                list.innerHTML = data.data.map(block => `
+                    <div class="flex items-center gap-4 p-4 bg-[#121212] border border-gray-800 rounded-sm">
+                        <!-- Image -->
+                        <div class="w-24 h-24 bg-black flex-shrink-0 overflow-hidden rounded-sm">
+                            ${block.images && block.images.length > 0 ? `
+                                <img src="${block.images[0]}" alt="${block.title}" class="w-full h-full object-cover">
+                            ` : `
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <i class="fas fa-image text-2xl text-gray-800"></i>
+                                </div>
+                            `}
+                        </div>
+                        
+                        <!-- Info -->
+                        <div class="flex-1">
+                            <h4 class="font-bold mb-1">${block.title}</h4>
+                            <p class="text-sm text-gray-400 mb-2">
+                                ${block.category} • ${block.location} • ${block.creatorName}
+                            </p>
+                            <div class="flex items-center gap-3 text-sm">
+                                <span class="text-[#00AEF0]">$${(block.price || 0).toFixed(2)}</span>
+                                <span class="text-gray-500">${block.purchases || 0}명 구매</span>
+                                <span class="status-badge status-${block.status}">
+                                    ${block.status === 'pending' ? '대기중' : block.status === 'approved' ? '승인됨' : '거절됨'}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex items-center gap-2">
+                            ${block.status === 'pending' ? `
+                                <button onclick="approveBlock('${block.id}')" 
+                                        class="bg-green-500 text-black px-4 py-2 rounded-sm hover:bg-green-600 transition-colors text-sm font-bold">
+                                    승인
+                                </button>
+                                <button onclick="rejectBlock('${block.id}')" 
+                                        class="bg-red-500 text-white px-4 py-2 rounded-sm hover:bg-red-600 transition-colors text-sm font-bold">
+                                    거절
+                                </button>
+                            ` : ''}
+                            <button onclick="deleteBlock('${block.id}')" 
+                                    class="border border-red-500 text-red-500 px-4 py-2 rounded-sm hover:bg-red-500 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading blocks:', error);
+            }
+        }
+        
+        // Load users
+        async function loadUsers() {
+            try {
+                const response = await fetch('tables/users?limit=1000');
+                const data = await response.json();
+                
+                const list = document.getElementById('usersList');
+                const empty = document.getElementById('usersEmpty');
+                
+                if (data.data.length === 0) {
+                    list.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                
+                list.classList.remove('hidden');
+                empty.classList.add('hidden');
+                
+                list.innerHTML = data.data.map(user => `
+                    <div class="flex items-center justify-between p-4 bg-[#121212] border border-gray-800 rounded-sm">
+                        <div>
+                            <h4 class="font-bold">${user.name}</h4>
+                            <p class="text-sm text-gray-400">${user.email}</p>
+                            ${user.isCreator ? '<span class="text-xs bg-[#00AEF0] text-black px-2 py-1 rounded-sm mt-1 inline-block">크리에이터</span>' : ''}
+                            ${user.isAdmin ? '<span class="text-xs bg-red-500 text-black px-2 py-1 rounded-sm mt-1 inline-block">관리자</span>' : ''}
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="toggleCreator('${user.id}', ${!user.isCreator})" 
+                                    class="spacex-btn-secondary text-sm px-4 py-2">
+                                ${user.isCreator ? '크리에이터 해제' : '크리에이터 승급'}
+                            </button>
+                            <button onclick="deleteUser('${user.id}')" 
+                                    class="border border-red-500 text-red-500 px-4 py-2 rounded-sm hover:bg-red-500 hover:text-white transition-colors text-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+        
+        // Load creators pre-registration
+        async function loadCreators() {
+            try {
+                const response = await fetch('tables/creators?limit=1000');
+                const data = await response.json();
+                
+                const list = document.getElementById('creatorsList');
+                const empty = document.getElementById('creatorsEmpty');
+                
+                if (data.data.length === 0) {
+                    list.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                
+                list.classList.remove('hidden');
+                empty.classList.add('hidden');
+                
+                list.innerHTML = data.data.map(creator => `
+                    <div class="p-4 bg-[#121212] border border-gray-800 rounded-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-bold">${creator.name}</h4>
+                            <span class="text-xs bg-[#00AEF0] text-black px-3 py-1 rounded-sm">${creator.category}</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-2">${creator.email} • ${creator.phone}</p>
+                        <p class="text-sm text-gray-300">${creator.message || '메시지 없음'}</p>
+                        <p class="text-xs text-gray-500 mt-2">신청일: ${new Date(creator.created_at).toLocaleDateString('ko-KR')}</p>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading creators:', error);
+            }
+        }
+        
+        // Approve block
+        async function approveBlock(blockId) {
+            if (!confirm('이 블록을 승인하시겠습니까?')) return;
+            
+            try {
+                await fetch(`tables/blocks/${blockId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ status: 'approved' })
+                });
+                
+                alert('블록이 승인되었습니다!');
+                refreshData();
+            } catch (error) {
+                console.error('Error approving block:', error);
+                alert('승인 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // Reject block
+        async function rejectBlock(blockId) {
+            if (!confirm('이 블록을 거절하시겠습니까?')) return;
+            
+            try {
+                await fetch(`tables/blocks/${blockId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ status: 'rejected' })
+                });
+                
+                alert('블록이 거절되었습니다.');
+                refreshData();
+            } catch (error) {
+                console.error('Error rejecting block:', error);
+                alert('거절 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // Delete block
+        async function deleteBlock(blockId) {
+            if (!confirm('이 블록을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+            
+            try {
+                await fetch(`tables/blocks/${blockId}`, {
+                    method: 'DELETE'
+                });
+                
+                alert('블록이 삭제되었습니다.');
+                refreshData();
+            } catch (error) {
+                console.error('Error deleting block:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // Toggle creator status
+        async function toggleCreator(userId, makeCreator) {
+            const action = makeCreator ? '크리에이터로 승급' : '크리에이터 해제';
+            if (!confirm(`이 사용자를 ${action}하시겠습니까?`)) return;
+            
+            try {
+                await fetch(`tables/users/${userId}`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ isCreator: makeCreator })
+                });
+                
+                alert(`${action}되었습니다.`);
+                refreshData();
+            } catch (error) {
+                console.error('Error toggling creator:', error);
+                alert('변경 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // Delete user
+        async function deleteUser(userId) {
+            if (!confirm('이 사용자를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+            
+            try {
+                await fetch(`tables/users/${userId}`, {
+                    method: 'DELETE'
+                });
+                
+                alert('사용자가 삭제되었습니다.');
+                refreshData();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        }
+        
+        // Refresh data
+        function refreshData() {
+            loadStats();
+            loadBlocks();
+            loadUsers();
+            loadCreators();
+        }
+        
+        // Export data
+        function exportData() {
+            alert('데이터 내보내기 기능은 곧 제공됩니다.');
+        }
+        
+        // Clear all data
+        function clearAllData() {
+            if (!confirm('모든 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+            if (!confirm('정말로 모든 데이터를 삭제하시겠습니까? 마지막 확인입니다.')) return;
+            
+            alert('데이터 삭제 기능은 보안상 비활성화되어 있습니다. 개별 삭제를 사용해주세요.');
+        }
+        
+        // View logs
+        function viewLogs() {
+            alert('시스템 로그 기능은 곧 제공됩니다.');
+        }
+        
+        // View analytics
+        function viewAnalytics() {
+            window.location.href = 'creator-studio.html';
+        }
+        
+        // Manage files
+        function manageFiles() {
+            alert('파일 관리 기능은 곧 제공됩니다.');
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        }
+        
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Update active states
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.classList.remove('spacex-btn-primary');
+                    b.classList.add('spacex-btn-secondary');
+                });
+                btn.classList.add('active');
+                btn.classList.remove('spacex-btn-secondary');
+                btn.classList.add('spacex-btn-primary');
+                
+                // Show corresponding content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.getElementById(tab + 'Tab').classList.add('active');
+            });
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.querySelector('#mobileMenuBtn i');
+            
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Block filter
+        document.getElementById('blockFilter').addEventListener('change', (e) => {
+            const filter = e.target.value;
+            const blocks = document.querySelectorAll('#blocksList > div');
+            
+            blocks.forEach(block => {
+                const badge = block.querySelector('.status-badge');
+                if (!badge) return;
+                
+                if (filter === 'all') {
+                    block.style.display = 'flex';
+                } else {
+                    const status = badge.classList.contains(`status-${filter}`);
+                    block.style.display = status ? 'flex' : 'none';
+                }
+            });
+        });
+        
+        // Style tweaks
+        const style = document.createElement('style');
+        style.textContent = `
+            .tab-btn.active {
+                background: #00AEF0 !important;
+                color: #000000 !important;
+                border-color: #00AEF0 !important;
+            }
+            
+            .tab-content {
+                display: none;
+            }
+            
+            .tab-content.active {
+                display: block;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

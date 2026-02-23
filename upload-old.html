@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경험 업로드하고 돈 벌기 | Trex.so</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+body { font-family: 'Pretendard', sans-serif; }
+.gradient-text {
+background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<!-- Navigation -->
+<nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-16">
+<div class="flex items-center">
+<a href="index.html" class="flex items-center space-x-2 group">
+<img src="images/trex-logo.png" alt="Trex.so Logo" class="h-10 w-auto transition-transform group-hover:scale-105">
+<span class="text-xl font-bold text-gray-800 hidden sm:inline">Trex.so</span>
+</a>
+</div>
+<div class="hidden md:flex space-x-8">
+<a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">홈</a>
+<a href="upload.html" class="text-blue-600 font-semibold">경험 업로드</a>
+<a href="market.html" class="text-gray-600 hover:text-blue-600 font-medium">블록 마켓</a>
+</div>
+<div id="authButtons">
+<!-- 로그인 후 표시 -->
+</div>
+</div>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-24 pb-12 bg-gradient-to-br from-blue-50 to-purple-50">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<div class="inline-block bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+<i class="fa-solid fa-coins mr-2"></i>크리에이터 수익 창출
+</div>
+<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+당신의 경험을<br><span class="gradient-text">수익형 블록으로 만드세요</span>
+</h1>
+<p class="text-xl text-gray-600 mb-8">
+사진과 간단한 설명만 있으면 됩니다. AI가 자동으로 분석하여<br>
+전 세계 여행자들이 구매할 수 있는 여행 블록으로 변환해 드립니다.
+</p>
+</div>
+</section>
+
+<!-- Upload Form -->
+<section class="py-12 pb-20 bg-white">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid md:grid-cols-2 gap-8">
+<!-- 이미지 업로드 -->
+<div>
+<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+<h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+<i class="fa-solid fa-image text-blue-600"></i>여행 사진 업로드
+</h3>
+<div class="upload-zone border-2 border-dashed border-blue-200 rounded-xl p-8 text-center cursor-pointer transition hover:border-blue-400 hover:bg-blue-50" 
+id="uploadZone" 
+onclick="document.getElementById('fileInput').click()">
+<div class="upload-icon w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+<i class="fa-solid fa-camera"></i>
+</div>
+<div class="upload-text">
+<p class="font-semibold text-gray-900 mb-2">사진을 업로드하세요</p>
+<p class="text-sm text-gray-500">클릭하거나 드래그하여 사진 추가</p>
+<p class="text-xs text-gray-400 mt-2">JPG, PNG 최대 5MB</p>
+</div>
+</div>
+<input type="file" id="fileInput" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+</div>
+
+<!-- AI 분석 결과 -->
+<div class="ai-result bg-white rounded-2xl shadow-xl p-8 border border-green-200 mt-6" id="aiResult" style="display:none;">
+<div class="flex items-center gap-2 mb-4 text-green-600">
+<i class="fa-solid fa-check-circle text-xl"></i>
+<h4 class="font-bold text-lg">AI 분석 완료</h4>
+</div>
+<div class="space-y-3" id="blockPreview"></div>
+<div class="flex flex-wrap gap-2 mt-4" id="tagsDisplay"></div>
+</div>
+</div>
+
+<!-- 텍스트 입력 폼 -->
+<div>
+<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+<h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+<i class="fa-solid fa-pen-to-square text-purple-600"></i>경험 기록하기
+</h3>
+
+<div class="mb-4">
+<label class="block text-sm font-semibold text-gray-700 mb-2">내 닉네임</label>
+<input type="text" id="creatorName" placeholder="예: 서울로컬러버" value="여행자"
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+</div>
+
+<div class="mb-6">
+<label class="block text-sm font-semibold text-gray-700 mb-2">여행 경험 설명 *</label>
+<textarea id="travelText" rows="8"
+class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+placeholder="이 장소에서 어떤 경험을 했나요? 감성적으로 써주세요. AI가 분석해서 자동으로 블록 정보를 채워드려요.
+
+예시: '비 오는 성수동, 숨어있는 카페를 발견했다. 웨이팅 30분도 아깝지 않은 창가 분위기. 라떼 한 잔에 피로가 녹는 기분...'"></textarea>
+</div>
+
+<button class="w-full bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-700 transition shadow-lg flex items-center justify-center gap-2" 
+id="analyzeBtn" onclick="analyzeBlock()">
+<i class="fa-solid fa-wand-magic-sparkles"></i>
+AI로 블록 생성하기
+</button>
+
+<div id="publishArea" style="display:none; margin-top:16px;">
+<button class="w-full bg-green-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-green-700 transition shadow-lg flex items-center justify-center gap-2" 
+onclick="publishBlock()">
+<i class="fa-solid fa-rocket"></i>
+마켓에 블록 등록하기
+</button>
+</div>
+</div>
+
+<!-- 혜택 안내 -->
+<div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 mt-6 border border-blue-100">
+<h4 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+<i class="fa-solid fa-gift text-blue-600"></i>
+크리에이터 혜택
+</h4>
+<div class="space-y-3">
+<div class="flex items-start gap-3">
+<i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+<div>
+<p class="font-semibold text-gray-900">낮은 수수료</p>
+<p class="text-sm text-gray-600">판매 수익의 80%를 크리에이터가 가져갑니다</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+<div>
+<p class="font-semibold text-gray-900">글로벌 판매</p>
+<p class="text-sm text-gray-600">자동 다국어 번역으로 전 세계 노출</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+<div>
+<p class="font-semibold text-gray-900">AI 자동화</p>
+<p class="text-sm text-gray-600">사진과 텍스트만으로 완성</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- AI 분석 로딩 오버레이 -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-[100] items-center justify-center backdrop-blur-sm" id="aiOverlay" style="display:none;">
+<div class="bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+<div class="w-20 h-20 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-6"></div>
+<h3 class="text-2xl font-bold text-gray-900 mb-2">AI 분석 중...</h3>
+<p class="text-gray-600 mb-6">멀티모달 AI가 여행 경험을 분석합니다</p>
+<div class="space-y-3 text-left">
+<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg transition-all" id="step1">
+<i class="fa-solid fa-image text-blue-600"></i>
+<span class="text-sm text-gray-700">이미지 시각 데이터 추출</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg opacity-40 transition-all" id="step2">
+<i class="fa-solid fa-brain text-purple-600"></i>
+<span class="text-sm text-gray-700">텍스트 감성 분석 (NLP)</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg opacity-40 transition-all" id="step3">
+<i class="fa-solid fa-location-dot text-green-600"></i>
+<span class="text-sm text-gray-700">위치 데이터 구조화</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg opacity-40 transition-all" id="step4">
+<i class="fa-solid fa-cube text-pink-600"></i>
+<span class="text-sm text-gray-700">블록 JSON 생성</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 토스트 알림 -->
+<div class="fixed bottom-6 right-6 z-50 space-y-3" id="toastContainer"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  BlockTrip Upload Page
+// ═══════════════════════════════════════════════════════
+
+const STATE = {
+  uploadedImage: null,
+  pendingBlock: null,
+  userId: 'user_' + Math.random().toString(36).substring(2, 10)
+};
+
+// 이미지 업로드
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    showToast('이미지 크기는 5MB 이하여야 해요', 'error');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    STATE.uploadedImage = e.target.result;
+    const zone = document.getElementById('uploadZone');
+    zone.innerHTML = `<img src="${e.target.result}" alt="업로드된 이미지" class="w-full h-64 object-cover rounded-lg">`;
+    zone.classList.add('border-green-400', 'bg-green-50');
+    zone.classList.remove('border-blue-200');
+    showToast('이미지 업로드 완료!', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// 드래그 앤 드롭
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => { 
+  e.preventDefault(); 
+  uploadZone.classList.add('border-blue-600', 'bg-blue-100');
+});
+
+uploadZone.addEventListener('dragleave', () => { 
+  uploadZone.classList.remove('border-blue-600', 'bg-blue-100');
+});
+
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('border-blue-600', 'bg-blue-100');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('fileInput').files = dt.files;
+    handleImageUpload({ target: { files: [file] } });
+  }
+});
+
+// AI 블록 분석
+async function analyzeBlock() {
+  const text = document.getElementById('travelText').value.trim();
+  if (!text && !STATE.uploadedImage) {
+    showToast('텍스트 또는 이미지를 입력해주세요', 'error');
+    return;
+  }
+
+  showAIOverlay();
+
+  const creatorName = document.getElementById('creatorName').value || '여행자';
+
+  setTimeout(() => {
+    const result = getMockAnalysis(text, creatorName);
+    hideAIOverlay();
+
+    if (result.success) {
+      STATE.pendingBlock = result.block;
+      showBlockPreview(result.block);
+      document.getElementById('publishArea').style.display = 'block';
+      showToast('✨ AI 분석 완료! 블록을 확인하세요', 'success');
+    } else {
+      showToast('분석 중 오류: ' + result.error, 'error');
+    }
+  }, 3000);
+}
+
+function showAIOverlay() {
+  document.getElementById('aiOverlay').style.display = 'flex';
+  const steps = ['step1','step2','step3','step4'];
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      const elem = document.getElementById(s);
+      elem.classList.remove('opacity-40');
+      elem.classList.add('bg-blue-50', 'border', 'border-blue-200');
+    }, i * 700);
+  });
+}
+
+function hideAIOverlay() {
+  document.getElementById('aiOverlay').style.display = 'none';
+  ['step1','step2','step3','step4'].forEach(s => {
+    const elem = document.getElementById(s);
+    elem.classList.add('opacity-40');
+    elem.classList.remove('bg-blue-50', 'border', 'border-blue-200');
+  });
+}
+
+function showBlockPreview(block) {
+  const preview = document.getElementById('blockPreview');
+  preview.innerHTML = `
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <p class="text-xs text-gray-500 mb-1">블록 제목</p>
+        <p class="font-semibold text-gray-900">${block.title}</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">카테고리</p>
+        <p class="font-semibold text-gray-900">${block.category}</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">위치</p>
+        <p class="font-semibold text-gray-900">${block.location}</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">판매 가격</p>
+        <p class="font-bold text-blue-600 text-lg">$${parseFloat(block.price).toFixed(2)}</p>
+      </div>
+    </div>
+    <div class="mt-4">
+      <p class="text-xs text-gray-500 mb-1">AI 분석 설명</p>
+      <p class="text-sm text-gray-700 leading-relaxed">${block.description}</p>
+    </div>
+  `;
+
+  const tags = Array.isArray(block.tags) ? block.tags : (block.tags||'').split(',');
+  document.getElementById('tagsDisplay').innerHTML = tags.filter(t=>t).map(t => 
+    `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">#${t.trim()}</span>`
+  ).join('');
+
+  document.getElementById('aiResult').style.display = 'block';
+}
+
+// 블록 마켓 등록
+async function publishBlock() {
+  if (!STATE.pendingBlock) return;
+
+  showToast('🚀 블록 등록 중...', 'success');
+
+  try {
+    // tags 안전하게 배열로 변환
+    let tagsArray = [];
+    if (STATE.pendingBlock.tags) {
+      if (Array.isArray(STATE.pendingBlock.tags)) {
+        tagsArray = STATE.pendingBlock.tags;
+      } else if (typeof STATE.pendingBlock.tags === 'string') {
+        tagsArray = STATE.pendingBlock.tags.split(',').map(t => t.trim()).filter(t => t);
+      }
+    }
+    
+    const blockData = {
+      title: STATE.pendingBlock.title || '여행 블록',
+      description: STATE.pendingBlock.description || '',
+      category: STATE.pendingBlock.category || '관광지',
+      location: STATE.pendingBlock.location || '서울',
+      price: parseFloat(STATE.pendingBlock.price) || 0.99,
+      image_url: STATE.uploadedImage || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800',
+      creator_name: STATE.pendingBlock.creatorName || '여행자',
+      tags: tagsArray,
+      tips: STATE.pendingBlock.description || '',
+      rating: 0,
+      purchase_count: 0,
+      status: 'approved'
+    };
+    
+    console.log('Sending block data:', blockData);
+    
+    const response = await fetch('tables/blocks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(blockData)
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log('Block created:', result);
+      showToast('🎉 블록이 마켓에 등록됐어요!', 'success');
+
+      // 폼 리셋
+      document.getElementById('travelText').value = '';
+      document.getElementById('creatorName').value = '여행자';
+      document.getElementById('uploadZone').innerHTML = `
+        <div class="upload-icon w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+          <i class="fa-solid fa-camera"></i>
+        </div>
+        <div class="upload-text">
+          <p class="font-semibold text-gray-900 mb-2">사진을 업로드하세요</p>
+          <p class="text-sm text-gray-500">클릭하거나 드래그하여 사진 추가</p>
+          <p class="text-xs text-gray-400 mt-2">JPG, PNG 최대 5MB</p>
+        </div>`;
+      document.getElementById('uploadZone').classList.remove('border-green-400', 'bg-green-50');
+      document.getElementById('uploadZone').classList.add('border-blue-200');
+      document.getElementById('aiResult').style.display = 'none';
+      document.getElementById('publishArea').style.display = 'none';
+      STATE.uploadedImage = null;
+      STATE.pendingBlock = null;
+
+      setTimeout(() => {
+        window.location.href = 'market.html';
+      }, 1500);
+    } else {
+      const errorText = await response.text();
+      console.error('Server response:', response.status, errorText);
+      throw new Error(`등록 실패 (${response.status}): ${errorText}`);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showToast(`등록 중 오류: ${error.message}`, 'error');
+  }
+}
+
+// Mock AI 분석
+function getMockAnalysis(text, creatorName) {
+  const cats = ['카페','음식점','관광지','쇼핑','체험'];
+  const locs = ['성수동','홍대','명동','광장시장','경복궁 근처'];
+  const cat = cats[Math.floor(Math.random()*cats.length)];
+  const loc = locs[Math.floor(Math.random()*locs.length)];
+  
+  return {
+    success: true,
+    block: {
+      title: `${loc} ${cat} 실제 경험`,
+      description: text ? `${text.substring(0,100)}... AI가 분석한 현지인만 아는 특별한 공간입니다.` : '현지인만 아는 숨겨진 매력 포인트!',
+      location: loc,
+      category: cat,
+      price: parseFloat((Math.random() * 3 + 1).toFixed(2)),
+      tags: ['로컬','추천','인스타'],
+      creatorName: creatorName
+    }
+  };
+}
+
+// 토스트 알림
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+  const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+  
+  toast.className = `${bgColor} text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3 animate-slide-in`;
+  toast.innerHTML = `
+    <i class="fa-solid fa-${icon} text-xl"></i>
+    <span>${message}</span>`;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => { 
+    toast.style.opacity = '0'; 
+    toast.style.transform = 'translateX(100px)';
+    toast.style.transition = 'all 0.3s';
+    setTimeout(() => toast.remove(), 300); 
+  }, 3000);
+}
+</script>
+
+<style>
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(100px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in { animation: slide-in 0.3s ease-out; }
+</style>
+
+<!-- 인증 시스템 통합 -->
+<script src="js/auth.js"></script>
+<script>
+// 페이지 로드 시 로그인 확인 + 헤더 업데이트
+window.addEventListener('DOMContentLoaded', () => {
+    // 로그인 필수 체크
+    requireLogin();
+    
+    // 헤더 사용자 정보 렌더링
+    renderUserInHeader('authButtons');
+    
+    // 로그인한 사용자 정보를 creator_name에 자동 입력
+    const user = getCurrentUser();
+    if (user && user.nickname) {
+        const creatorInput = document.querySelector('input[placeholder="닉네임 입력"]');
+        if (creatorInput) {
+            creatorInput.value = user.nickname;
+            creatorInput.readOnly = true;
+            creatorInput.classList.add('bg-gray-100');
+        }
+    }
+});
+</script>
+
+</body>
+</html>

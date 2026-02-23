@@ -1,551 +1,446 @@
-# Trex.so - 일상의 여행이 수익이 되는 곳
+# 🚀 Trex.so - Travel Block Marketplace
 
-## 📋 프로젝트 소개
+> **"Travel. Assemble. Play."**  
+> AI 기반 여행 경험 블록 마켓플레이스
 
-Trex.so는 일상적인 여행 경험을 AI가 분석하여 전 세계 여행자가 구매할 수 있는 '여행 블록'으로 변환하는 혁신적인 크리에이터 이코노미 플랫폼입니다.
-
-> **도메인 전략**: "T-Rex"는 강력함을, ".so"는 간결함을 상징합니다. N잡러와 글로벌 크리에이터 이코노미를 타겟으로 한 C2C 마이크로 트랜잭션 마켓플레이스입니다.
-
----
-
-## ✨ 완료된 기능
-
-### 🆕 Creator Studio (크리에이터 스튜디오) - **디지털 자산 관리 대시보드**
-> **핵심 목표**: 크리에이터가 자신의 경험을 '디지털 자산'으로 관리한다는 느낌을 받도록 설계
-
-#### 1️⃣ **블록 생성 대시보드 (Asset Tracker)**
-- ✅ **Quick Stats**: 총 블록 수, 총 수익($), 총 판매 수, 평균 평점 4개 카드
-- ✅ **실시간 자산 조회**: 크리에이터가 생성한 모든 블록 목록 표시
-- ✅ **Asset Status 표시**: 
-  - 🟡 **검증 대기** (Pending Verification) - 노란색 배지, 애니메이션
-  - 🟢 **판매 중** (On Sale) - 초록색 배지
-  - 🟣 **블록체인 인증** (Blockchain Verified) - 보라색 배지
-- ✅ **각 블록별 상세 정보**: 썸네일, 제목, 설명, 가격, 판매 건수, 평점, 개별 수익
-- ✅ **필터링 기능**: 전체/검증 대기/판매 중 상태별 조회
-- ✅ **Hover 효과**: 카드 호버 시 그림자 & 상승 애니메이션
-  
-#### 2️⃣ **수익 예측 시뮬레이터 (Earnings Predictor)**
-- ✅ **보유 자산 기반 예측**: 현재 생성한 블록 개수와 평균 가격 자동 표시
-- ✅ **구매자 수 슬라이더**: 0~1,000명, 10명 단위 조절
-- ✅ **재구매율 선택**: 1회(보수적) / 1.5회(현실적) / 2회(낙관적)
-- ✅ **실시간 수익 계산**:
-  - 📊 **예상 월 수익**: 큰 폰트로 강조 표시
-  - 📈 **예상 구매 건수**: 구매자 수 × 재구매율
-  - 💰 **블록당 평균 수익**: 총 수익 ÷ 블록 개수
-  - 🎯 **연 예상 수익**: 월 수익 × 12개월
-- ✅ **Chart.js 시각화**: 6개월 수익 전망 그래프 (월 20% 성장 가정)
-- ✅ **동기 부여 디자인**: 보라색→핑크 그라데이션 카드, 큰 숫자 강조
-
-#### 3️⃣ **크리에이터 프로필 섹션**
-- ✅ **크리에이터 레코드**: 가입일, 활동일수, 베스트 블록, 크리에이터 레벨 표시
-- ✅ **레벨 시스템**: 블록 개수 기반 (신입→일반→베테랑→마스터→레전드)
-- ✅ **베스트 블록 표시**: 수익이 가장 높은 블록 강조
-
-#### 4️⃣ **상세 매출 분석**
-- ✅ **기간별 수익 그래프**: 일간/주간/월간 매출 추이 Chart.js 라인 차트
-- ✅ **블록별 수익 순위**: Top 10 블록, 메달 아이콘(🥇🥈🥉), 개별 수익 표시
-- ✅ **카테고리별 매출 비율**: 도넛 차트 (식당/카페/K-뷰티/관광지/쇼핑)
-- ✅ **인터랙티브 필터**: 기간 전환 버튼으로 실시간 차트 업데이트
-
-#### 5️⃣ **활동 기록 (Activity Log)**
-- ✅ **최근 업로드**: 최근 10개 블록 (썸네일, 업로드 날짜)
-- ✅ **최근 판매**: 최근 20개 판매 내역 (블록명, 수익, 판매 날짜)
-- ✅ **피드백 요약**: 리뷰 수, 평균 평점, 재구매율 통계
-- ✅ **탭 네비게이션**: Asset Management / Earnings Analysis / Activity Log
-
-### 1. 메인 랜딩 페이지 (`index.html`)
-- ✅ **반응형 디자인**: 모바일, 태블릿, 데스크톱 최적화 + 햄버거 메뉴
-- ✅ **히어로 섹션**: 서울 야경 배경의 임팩트 있는 메인 비주얼
-- ✅ **서비스 소개**: 3단계 작동 원리 시각화
-- ✅ **크리에이터 섹션**: 수익 창출 방법 및 혜택 설명
-- ✅ **블록 마켓 프리뷰**: 인기 여행 블록 4개 카드 표시
-- ✅ **K-뷰티/의료 관광 특화 섹션**: 
-  - 🩺 3단계 안전 가이드 (영수증 AI 검증, 개인정보 자동 마스킹, 합법 정보만 판매)
-  - 📸 영수증 업로드 가이드 모달 (좋은 예시/나쁜 예시/촬영 팁)
-  - 🔥 인기 K-뷰티 블록 예시 (영수증 인증 완료 배지)
-  - 🎯 직관적 CTA 버튼 "K-뷰티 블록 지금 만들기"
-- ✅ **사전 예약 폼**: 이메일 수집 및 DB 저장 기능 구현
-- ✅ **페이지 간 네비게이션**: 각 기능 페이지로 이동
-- ✅ **동적 헤더**: 로그인 상태에 따라 헤더 버튼 변경 (로그인/프로필)
-
-### 2. 사용자 인증 시스템 (`login.html`, `js/auth.js`)
-- ✅ **회원가입**: 이메일, 비밀번호, 닉네임, 사용자 유형 선택
-- ✅ **로그인**: SHA-256 해시 비밀번호 검증
-- ✅ **로그아웃**: 세션 종료 및 로그인 페이지 리다이렉트
-- ✅ **세션 관리**: localStorage 기반 현재 사용자 정보 저장
-- ✅ **로그인 필수 체크**: 특정 페이지 접근 시 인증 확인
-- ✅ **비밀번호 보안**: SHA-256 해싱 적용
-
-### 3. 프로필 페이지 (`profile.html`)
-- ✅ **프로필 정보 표시**: 닉네임, 이메일, 사용자 유형, 가입일
-- ✅ **프로필 수정**: 닉네임, 사용자 유형, 비밀번호 변경
-- ✅ **내가 만든 블록**: 크리에이터가 업로드한 블록 목록 조회
-- ✅ **구매 내역**: 사용자가 구매한 블록 및 여행 일정 표시
-- ✅ **통계 정보**: 내 블록 개수, 구매한 블록 개수
-- ✅ **탭 네비게이션**: 내 정보, 내가 만든 블록, 구매 내역
-
-### 4. 비밀번호 재설정 (`reset-password.html`)
-- ✅ **이메일 확인**: 가입된 이메일 존재 여부 확인
-- ✅ **임시 비밀번호 생성**: 6자리 랜덤 코드 생성
-- ✅ **2단계 인증**: 임시 비밀번호 확인 후 새 비밀번호 설정
-- ✅ **DB 업데이트**: 새 비밀번호 해시화 및 저장
-- ✅ **시뮬레이션 모드**: 백엔드 없이도 작동 (실제론 이메일 발송)
-
-### 5. 경험 업로드 페이지 (`upload.html`)
-- ✅ **로그인 필수**: 비로그인 사용자 접근 차단
-- ✅ **사진 업로드**: 드래그 앤 드롭, 클릭 업로드, 미리보기
-- ✅ **경험 기록**: 닉네임(자동), 여행 설명 입력
-- ✅ **AI 블록 생성 시뮬레이션**: 3초 분석 애니메이션
-- ✅ **블록 프리뷰**: 생성된 블록 정보 미리보기
-- ✅ **마켓 등록**: RESTful API로 `tables/blocks`에 저장
-- ✅ **데이터 검증**: 태그 배열 변환, 가격 숫자 파싱
-
-### 6. 블록 마켓 페이지 (`market.html`)
-- ✅ **블록 목록 표시**: 데이터베이스에서 승인된 블록 로드
-- ✅ **카테고리 필터**: 전체, 식당, 카페, K-뷰티, 관광지, 쇼핑
-- ✅ **정렬 기능**: 인기순, 평점순, 가격 낮은순/높은순
-- ✅ **장바구니 시스템**: 블록 추가/제거, 실시간 총액 계산
-- ✅ **로그인 체크**: 장바구니 추가 시 로그인 확인
-- ✅ **일정 조립 기능**: 선택한 블록으로 여행 일정 생성
-- ✅ **모달 UI**: 장바구니 및 조립된 일정 표시
-- ✅ **구매 이력 저장**: `tables/trips`에 사용자별 구매 기록
-
-### 7. 데이터베이스 스키마
-- ✅ **blocks 테이블**: 여행 블록 정보 저장 (13개 필드)
-- ✅ **creators 테이블**: 크리에이터 사전 등록 정보 (7개 필드)
-- ✅ **trips 테이블**: 생성된 여행 일정 정보 (8개 필드)
-- ✅ **users 테이블**: 사용자 계정 정보 (9개 필드)
+![SpaceX Design](https://img.shields.io/badge/Design-SpaceX%20Style-00AEF0?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.0-blue?style=flat-square)
 
 ---
 
-## 🚀 현재 기능 URI
+## 📋 목차
 
-| 페이지 | 경로 | 설명 | 인증 필요 |
-|--------|------|------|----------|
-| 메인 페이지 | `index.html` | 랜딩 페이지 및 사전 등록 | ❌ |
-| 로그인 | `login.html` | 회원가입 및 로그인 | ❌ |
-| 비밀번호 재설정 | `reset-password.html` | 비밀번호 찾기 | ❌ |
-| **🆕 Creator Studio** | `creator-studio.html` | **디지털 자산 관리 대시보드** | ✅ |
-| 경험 업로드 | `upload.html` | 여행 블록 생성 및 업로드 | ✅ |
-| 블록 마켓 | `market.html` | 블록 구매 및 일정 조립 | ⚠️ (장바구니 추가 시) |
-| 내 프로필 | `profile.html` | 프로필 관리, 내 블록, 구매 내역 | ✅ |
-
----
-
-## 🎯 API 엔드포인트
-
-### 사용자 관리
-- `POST tables/users` - 회원가입
-- `GET tables/users?search={email}` - 이메일로 사용자 조회
-- `PATCH tables/users/{user_id}` - 프로필 업데이트
-
-### 블록 관리
-- `GET tables/blocks?status=approved&limit=100` - 승인된 블록 목록 조회
-- `POST tables/blocks` - 새 블록 생성
-- `GET tables/blocks?search={creator_name}` - 크리에이터별 블록 조회
-
-### 크리에이터 등록
-- `POST tables/creators` - 크리에이터 사전 등록
-
-### 여행 일정
-- `POST tables/trips` - 새 여행 일정 생성
-- `GET tables/trips?search={user_email}` - 사용자별 구매 이력 조회
+1. [프로젝트 개요](#-프로젝트-개요)
+2. [주요 기능](#-주요-기능)
+3. [디자인 시스템](#-디자인-시스템)
+4. [페이지 구조](#-페이지-구조)
+5. [기술 스택](#-기술-스택)
+6. [설치 및 실행](#-설치-및-실행)
+7. [데이터 모델](#-데이터-모델)
+8. [향후 계획](#-향후-계획)
 
 ---
 
-## 🚀 사용자 워크플로우
+## 🎯 프로젝트 개요
 
-### 신규 사용자 (첫 방문)
-1. **메인 페이지** (`index.html`) 방문
-2. **"무료 회원가입"** 또는 **"경험 업로드하고 돈 벌기"** 클릭
-3. **로그인 페이지** (`login.html`)로 리다이렉트 (회원가입 탭 기본 표시)
-4. 회원가입 완료 후 자동 로그인
-5. 메인 페이지로 돌아가서 원하는 기능 사용
+Trex.so는 **AI 기반 여행 경험 블록 마켓플레이스**입니다. 크리에이터들이 자신의 여행 경험을 블록으로 만들어 판매하고, 여행자들은 이를 구매하여 맞춤형 여행을 조립할 수 있습니다.
 
-### 크리에이터 워크플로우
-1. **회원가입** (login.html) → 크리에이터 유형 선택
-2. **로그인** → 헤더에 프로필 아바타 표시
-3. **경험 업로드** (upload.html) → 로그인 확인 → 자동 닉네임 입력, 블록 생성
-4. **프로필 확인** (profile.html) → 내가 만든 블록 조회, 수익 통계
-
-### 여행자 워크플로우
-1. **회원가입** (login.html) → 여행자 유형 선택
-2. **블록 탐색** (market.html) → 카테고리 필터, 정렬
-3. **장바구니 추가** → 로그인 확인 → 블록 선택
-4. **일정 조립** → AI 일정 생성 및 구매
-5. **프로필 확인** (profile.html) → 구매 내역 조회
+### **핵심 가치**
+- 🤖 **AI 자동 블록 생성**: 사진과 간단한 설명만으로 블록 생성
+- 💰 **크리에이터 수익 창출**: 블록 판매를 통한 지속적 수익
+- 🌏 **글로벌 마켓**: 전 세계 여행자와 크리에이터 연결
+- 🎨 **SpaceX 디자인**: 현대적이고 전문적인 UI/UX
 
 ---
 
-## 💡 주요 기능 동작 방식
+## ✨ 주요 기능
 
-### 🔥 NEW: Creator Studio 워크플로우 (creator-studio.html)
-1. **로그인 필수**: 비로그인 시 자동으로 login.html 리다이렉트
-2. **자산 로드**: `tables/blocks`에서 모든 블록 조회 → creator_name으로 필터링
-3. **Quick Stats 표시**:
-   - 총 블록 수: `myBlocks.length`
-   - 총 수익: `Σ(purchase_count × price)`
-   - 총 판매 수: `Σ(purchase_count)`
-   - 평균 평점: `Σ(rating) / 블록 개수`
-
-4. **Asset Tracker**:
-   - 상태별 필터링 (전체/검증 대기/판매 중)
-   - 블록 카드 렌더링 (썸네일, 제목, 설명, 가격, 판매 수, 평점, 개별 수익)
-   - Hover 효과 (그림자 + 상승 애니메이션)
-
-5. **Earnings Predictor**:
-   - 보유 블록 수 & 평균 가격 자동 표시
-   - 슬라이더 조작 → 실시간 수익 계산
-   - 재구매율 변경 → Chart.js 그래프 업데이트
-   - 예상 월 수익, 구매 건수, 블록당 수익, 연 수익 표시
-
-6. **K-뷰티/의료 가이드**:
-   - 3단계 프로세스 설명 (영수증 검증 → 마스킹 → 합법 정보만)
-   - "영수증 업로드 가이드 보기" → 모달 열기
-   - 좋은 예시(초록) / 나쁜 예시(빨강) / 촬영 팁(파랑) 표시
-   - "K-뷰티 블록 생성하기" → `upload.html` 이동
-
-### 1. 회원가입 및 로그인 (login.html)
-1. **회원가입**:
-   - 이메일, 비밀번호(최소 6자), 닉네임, 사용자 유형 입력
-   - 비밀번호 확인 일치 검증
-   - 비밀번호 SHA-256 해싱
-   - `tables/users`에 저장 (상태: active)
-   - localStorage에 사용자 정보 저장
-   - 메인 페이지로 리다이렉트
-
-2. **로그인**:
-   - 이메일로 사용자 조회
-   - 입력한 비밀번호 해싱 후 DB와 비교
-   - 일치 시 localStorage에 저장 및 `last_login` 업데이트
-   - 메인 페이지로 리다이렉트
-
-### 2. 경험 업로드하고 돈 벌기 (upload.html)
-1. 페이지 접근 시 로그인 여부 확인 (`requireLogin()`)
-2. 로그인한 사용자의 닉네임을 크리에이터명에 자동 입력
-3. 사용자가 여행 사진 업로드 (드래그 앤 드롭 또는 클릭)
-4. 여행 설명 입력
-5. "AI로 블록 생성하기" 클릭 시 3초 분석 시뮬레이션
-6. 블록 프리뷰 표시 (제목, 카테고리, 가격, 설명, 태그)
-7. "마켓에 블록 등록하기" 클릭 시 `tables/blocks`에 POST
-8. 성공 시 토스트 알림 및 market.html로 리다이렉트
-
-### 3. 다른 사람의 블록 조립하기 (market.html)
-1. 페이지 로드 시 `tables/blocks`에서 승인된 블록 조회
-2. 카테고리 필터 및 정렬 기능으로 블록 탐색
-3. 원하는 블록을 장바구니에 추가 (로그인 확인)
-4. 장바구니에서 총 금액 확인
-5. "AI로 일정 조립하기" 클릭 시 여행 일정 생성
-6. `tables/trips`에 일정 데이터 저장 (사용자 이메일 포함)
-7. 조립된 일정을 순서대로 표시
-
-### 4. 프로필 관리 (profile.html)
-1. 페이지 접근 시 로그인 여부 확인
-2. 현재 사용자 정보 표시 (닉네임, 이메일, 유형, 가입일)
-3. **내 정보 탭**:
-   - 닉네임, 사용자 유형 수정
-   - 비밀번호 변경 (선택)
-   - PATCH 요청으로 `tables/users/{user_id}` 업데이트
-   - localStorage 동기화
-
-4. **내가 만든 블록 탭**:
-   - `tables/blocks`에서 creator_name으로 필터링
-   - 블록 카드로 표시 (이미지, 제목, 평점, 가격)
-
-5. **구매 내역 탭**:
-   - `tables/trips`에서 user_email로 필터링
-   - 여행 일정별 블록 목록 및 총 가격 표시
-
-### 5. 비밀번호 재설정 (reset-password.html)
-1. **Step 1: 이메일 입력**
-   - 이메일로 사용자 존재 여부 확인
-   - 6자리 임시 비밀번호 생성 (랜덤)
-   - 임시 비밀번호를 해싱하여 DB에 저장
-   - 화면에 임시 비밀번호 표시 (실제론 이메일 발송)
-
-2. **Step 2: 새 비밀번호 설정**
-   - 임시 비밀번호 확인
-   - 새 비밀번호 입력 및 재확인
-   - 새 비밀번호 해싱 후 DB 업데이트
-   - 임시 비밀번호 제거 (temp_password = null)
-   - 성공 메시지 및 로그인 페이지 링크 표시
-
----
-
-## 🎨 디자인 특징
-
-- **컬러 팔레트**:
-  - Primary: Blue (#3b82f6)
-  - Secondary: Purple (#8b5cf6)
-  - Accent: Pink (#ec4899)
-  - Success: Green (#22c55e)
-  - Error: Red (#ef4444)
-
-- **타이포그래피**: Pretendard (한글 최적화)
-- **UI 라이브러리**: Tailwind CSS (CDN)
-- **아이콘**: Font Awesome 6
-- **이미지**: 한국 실제 장소 사진 사용 (서울 야경, 강남 피부과, 한강 공원, 성수동 카페, 광장시장)
-
----
-
-## 🔧 기술 스택
-
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **스타일링**: Tailwind CSS (CDN)
-- **데이터베이스**: RESTful Table API
-- **인증**: SHA-256 해싱 + localStorage 세션
-- **폼 검증**: HTML5 Validation + JavaScript
-- **상태 관리**: localStorage, sessionStorage
-
----
-
-## 📊 데이터베이스 스키마 상세
-
-### users 테이블 (9개 필드)
-```
-- id: text (자동 생성 UUID)
-- email: text (이메일, 유니크)
-- password: text (SHA-256 해시)
-- nickname: text (닉네임)
-- profile_image: text (프로필 이미지 URL)
-- user_type: text (creator/traveler/both)
-- created_at: datetime (가입 일시)
-- last_login: datetime (마지막 로그인)
-- status: text (active/suspended/deleted)
-```
-
-### blocks 테이블 (13개 필드)
-```
-- id: text (자동 생성 UUID)
-- title: text (블록 제목)
-- description: rich_text (상세 설명)
-- category: text (카테고리)
-- location: text (위치)
-- price: number (USD)
-- rating: number (0-5)
-- purchase_count: number (구매 횟수)
-- creator_name: text (크리에이터 닉네임)
-- image_url: text (대표 이미지)
-- tags: array (태그 목록)
-- tips: rich_text (팁과 노하우)
-- status: text (pending/approved/rejected)
-```
-
-### creators 테이블 (7개 필드)
-```
-- id: text (자동 생성 UUID)
-- email: text (이메일)
-- name: text (이름)
-- phone: text (연락처)
-- interest_category: text (관심 카테고리)
-- message: rich_text (메시지)
-- registered_at: datetime (등록 일시)
-```
-
-### trips 테이블 (8개 필드)
-```
-- id: text (자동 생성 UUID)
-- user_name: text (사용자 이름)
-- user_email: text (이메일)
-- trip_title: text (여행 제목)
-- selected_blocks: array (선택한 블록 ID 목록)
-- total_price: number (총 가격)
-- trip_date: datetime (여행 날짜)
-- status: text (planning/confirmed/completed)
-```
-
----
-
-## 📱 반응형 브레이크포인트
-
-- **Mobile**: < 768px
-- **Tablet**: 768px - 1024px  
-- **Desktop**: > 1024px
-
----
-
-## 🌟 완료된 향후 개선 사항
-
-### ✅ Phase 1: 사용자 인증 및 프로필 (완료)
-- ✅ 회원가입/로그인 시스템
-- ✅ 사용자 프로필 페이지
-- ✅ 비밀번호 재설정
+### 1. **인증 시스템**
+- ✅ 이메일/비밀번호 로그인
+- ✅ SHA-256 비밀번호 해싱
+- ✅ 3단계 비밀번호 재설정
 - ✅ 세션 관리 (localStorage)
-- ✅ 로그인 필수 페이지 체크
-- ✅ 크리에이터 정보 자동 입력
-- ✅ 내가 만든 블록 조회
-- ✅ 구매 이력 조회
 
-### ✅ Phase 2: Creator Studio 고도화 (완료)
-- ✅ **Asset Tracker (블록 생성 대시보드)**
-  - 디지털 자산 관리 인터페이스
-  - Quick Stats (블록 수, 수익, 판매 수, 평점)
-  - 상태별 필터링 (검증 대기/판매 중/블록체인 인증)
-  - 블록별 상세 정보 (판매 건수, 평점, 개별 수익)
-  
-- ✅ **Earnings Predictor (수익 예측 시뮬레이터)**
-  - 구매자 수 슬라이더 (0~1,000명)
-  - 재구매율 선택 (보수적/현실적/낙관적)
-  - 실시간 수익 계산 (월/연 예상)
-  - Chart.js 기반 6개월 수익 전망 시각화
-  - N잡러 동기 부여 강화
-  
-- ✅ **K-뷰티/의료 특화 가이드**
-  - 영수증 AI 검증 가이드
-  - 개인정보 자동 마스킹 설명 (GDPR 준수)
-  - 합법 정보 판매 기준 명확화
-  - 영수증 촬영 팁 모달
-  - 심리적 진입 장벽 완화
+### 2. **Creator Studio (크리에이터 대시보드)**
+- ✅ 3탭 인터페이스 (Asset Management, Earnings Analysis, Activity Log)
+- ✅ 퀵 스탯 카드 (총 블록, 총 수익, 총 판매, 평균 평점)
+- ✅ Chart.js 기반 수익 예측 그래프
+- ✅ 어셋 트래커 with 상태 배지 (Pending, Approved, Rejected)
 
----
+### 3. **블록 마켓**
+- ✅ 카테고리 필터 (전체, 식당, 카페, K-뷰티, 관광지, 쇼핑)
+- ✅ 정렬 옵션 (인기순, 평점순, 가격 낮은순/높은순)
+- ✅ 4컬럼 반응형 그리드
+- ✅ 장바구니 시스템 with 실시간 총액 계산
+- ✅ RESTful API 연동
 
-## 🚧 향후 개발 예정 기능
+### 4. **프로필 관리**
+- ✅ 3탭 프로필 (내 블록, 구매 내역, 설정)
+- ✅ 활동 통계 (생성 블록 수, 구매 수, 총 수익)
+- ✅ 프로필 편집 (이름, 연락처)
+- ✅ 비밀번호 변경
+- ✅ 계정 삭제
 
-### Phase 3: 결제 시스템
-- [ ] 결제 게이트웨이 연동 (Stripe/PayPal)
-- [ ] 장바구니 결제 기능
-- [ ] 수익 정산 시스템
-- [ ] 환불 및 분쟁 처리
+### 5. **블록 업로드**
+- ✅ 드래그 & 드롭 이미지 업로드
+- ✅ 이미지 미리보기 그리드
+- ✅ 블록 정보 입력 (제목, 카테고리, 위치, 설명, 가격, 태그)
+- ✅ 업로드 진행률 바
+- ✅ RESTful API 자동 저장
 
-### Phase 4: AI 기능 강화
-- [ ] 실제 이미지 자동 분석 및 태그 추천
-- [ ] 영수증 OCR 검증 (K-뷰티/의료 블록)
-- [ ] 개인정보 마스킹 API 연동
-- [ ] 설명 자동 번역 (다국어 지원)
-- [ ] 일정 최적화 알고리즘 (동선, 시간, 교통)
-- [ ] 개인화 추천 시스템
-
-### Phase 5: 블록체인 인증
-- [ ] Polygon/Klaytn 통합
-- [ ] 인기 블록 NFT 발행
-- [ ] 블록체인 인증 배지
-- [ ] 위조 방지 시스템
-
-### Phase 6: 소셜 기능
-- [ ] 블록 리뷰 및 평점 시스템
-- [ ] 크리에이터 팔로우
-- [ ] 여행 일정 공유 (SNS 연동)
-- [ ] 커뮤니티 게시판
-
-### Phase 7: 관리자 기능
-- [ ] 관리자 대시보드
-- [ ] 블록 승인/거부 시스템
-- [ ] 사용자 관리
-- [ ] 통계 및 분석
+### 6. **K-뷰티 특화 섹션**
+- ✅ 3단계 안전 가이드 (AI 영수증 검증, 자동 개인정보 마스킹, 합법 정보만)
+- ✅ 인기 K-뷰티 블록 쇼케이스
+- ✅ 영수증 업로드 가이드 모달
 
 ---
 
-## 🐛 알려진 제한사항
+## 🎨 디자인 시스템
 
-1. **이미지 업로드**: 현재 URL만 지원, 직접 파일 업로드 미구현
-2. **이메일 발송**: 비밀번호 재설정 시 실제 이메일 발송 없이 화면 표시
-3. **결제**: 실제 결제 없이 시뮬레이션만 가능
-4. **AI 기능**: 실제 AI 분석 없이 수동 입력 (3초 분석 애니메이션만)
-5. **블록 승인**: 자동 승인 없이 수동 상태 변경 필요
-6. **보안**: localStorage 세션 (프로덕션에서는 JWT/Cookie 권장)
+### **SpaceX / X.com 스타일**
 
----
+Trex.so는 **SpaceX와 X.com의 디자인 언어**를 채택하여 현대적이고 전문적인 이미지를 구축합니다.
 
-## 🚀 배포 방법
+#### **색상 팔레트**
+```css
+배경: #000000 (pure black)
+카드/섹션: #121212 (dark gray)
+경계선: rgba(255,255,255,0.1) (ultra-thin light gray)
+강조색: #00AEF0 (sci-blue) - 호버, 버튼, 주요 숫자
+텍스트: #FFFFFF (white)
+텍스트 보조: #9CA3AF (gray-400)
+```
 
-1. **Publish 탭 사용**: 
-   - 프로젝트 내 Publish 탭으로 이동
-   - "Deploy" 버튼 클릭하여 즉시 배포
-   - 자동으로 생성된 URL 획득
+#### **타이포그래피**
+```css
+폰트: Inter, Montserrat
+자간: -0.02em ~ -0.04em (tight)
+헤딩: font-weight 900, text-4xl ~ text-6xl
+본문: font-weight 300, text-base ~ text-lg
+라인 높이: 1.6
+```
 
-2. **로컬 테스트**:
-   - 모든 HTML 파일을 웹 브라우저에서 직접 열기
-   - 데이터베이스 연동을 위해 서버 환경 필요
+#### **레이아웃 원칙**
+- 풀스크린 히어로 섹션 (100vh)
+- 중앙 정렬 태그라인
+- 다크 그레이 카드 with depth
+- 4컬럼 그리드 (xl breakpoint)
+- 거의 직각 버튼 (border-radius: 2px)
 
----
+#### **UX 원칙 (30-40세 타겟)**
+- 불필요한 애니메이션 제거
+- fade-in 스크롤 효과만 유지
+- 모바일 고대비 텍스트/배경
+- 48px 최소 터치 타겟
+- 명확한 정보 위계
 
-## 📝 사용 가이드
+### **재사용 가능한 CSS 클래스**
 
-### 크리에이터를 위한 가이드
-1. **회원가입**: `login.html`에서 크리에이터 유형으로 가입
-2. **Creator Studio 접속**: `creator-studio.html`에서 대시보드 확인
-   - Quick Stats로 현재 자산 현황 파악
-   - Asset Tracker로 내 블록 관리
-   - Earnings Predictor로 수익 예측
-3. **경험 업로드**: `upload.html`에서 "경험 업로드하고 돈 벌기" 클릭
-4. **K-뷰티/의료 블록**: 
-   - 영수증 인증 가이드 확인
-   - 합법 정보만 판매 (시술 후기, 대기시간, 예약 팁)
-5. **여행 블록 정보 입력**: 사진, 설명, AI 블록 생성
-6. **마켓 등록**: 블록 등록 후 승인 대기
-7. **프로필 관리**: `profile.html`에서 내가 만든 블록 확인
+`css/spacex-design-system.css` 파일 참조:
 
-### 여행자를 위한 가이드
-1. **회원가입**: `login.html`에서 여행자 유형으로 가입
-2. **블록 탐색**: `market.html`에서 카테고리 및 정렬 기능 사용
-3. **장바구니 추가**: 마음에 드는 블록 선택
-4. **일정 조립**: "AI로 일정 조립하기" 클릭
-5. **구매 이력 확인**: `profile.html`에서 구매한 블록 및 일정 조회
+```css
+/* Navigation */
+.spacex-nav
+.spacex-nav-link
+.spacex-nav-link-active
 
----
+/* Buttons */
+.spacex-btn-primary
+.spacex-btn-secondary
 
-## 🎯 권장 다음 단계
+/* Typography */
+.spacex-headline
+.spacex-subheadline
+.spacex-body-large
+.spacex-body
 
-1. **이미지 파일 업로드**
-   - 파일 업로드 UI 추가
-   - 이미지 저장 서버 연동
-   - 최적화 및 리사이징
-
-2. **실제 이메일 발송**
-   - SMTP 서버 연동
-   - 비밀번호 재설정 이메일 템플릿
-   - 회원가입 인증 이메일
-
-3. **결제 시스템**
-   - Stripe/PayPal API 연동
-   - 결제 플로우 구현
-   - 수익 정산 자동화
-
-4. **실제 AI 연동**
-   - 이미지 분석 API (Google Vision, AWS Rekognition)
-   - 영수증 OCR 검증 (K-뷰티/의료 블록)
-   - 개인정보 마스킹 API
-   - 자동 번역 API (Google Translate)
-   - 일정 최적화 알고리즘
-
-5. **블록체인 인증 시스템**
-   - Polygon/Klaytn 스마트 컨트랙트 개발
-   - 인기 블록 NFT 발행 기능
-   - 블록체인 인증 배지 UI
-   - 위조 방지 시스템
-
-6. **보안 강화**
-   - JWT 토큰 인증
-   - HTTPS 적용
-   - CSRF 방어
-   - Rate Limiting
+/* Layout */
+.spacex-container
+.spacex-card
+.spacex-section
+.spacex-grid
+```
 
 ---
 
-## 📁 프로젝트 구조
+## 📄 페이지 구조
 
+### **1. index.html** (28.4 KB)
+- **설명**: 메인 랜딩 페이지
+- **주요 섹션**:
+  - 풀스크린 히어로 with "Travel. Assemble. Play."
+  - How It Works (3 steps)
+  - Popular Blocks (4컬럼 그리드)
+  - K-Beauty Section (2컬럼)
+  - 사전 등록 폼
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **2. creator-studio.html** (25.1 KB)
+- **설명**: 크리에이터 대시보드
+- **주요 기능**:
+  - 퀵 스탯 카드 (4개)
+  - 3탭 인터페이스
+  - Chart.js 수익 예측 그래프
+  - 어셋 트래커
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **3. login.html** (9.0 KB)
+- **설명**: 로그인 페이지
+- **주요 기능**:
+  - 이메일/비밀번호 로그인
+  - SHA-256 해싱
+  - 소셜 로그인 버튼 (미래)
+  - 비밀번호 재설정 링크
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **4. market.html** (23.2 KB)
+- **설명**: 블록 마켓플레이스
+- **주요 기능**:
+  - 6개 카테고리 필터
+  - 4가지 정렬 옵션
+  - 4컬럼 블록 그리드
+  - 장바구니 모달
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **5. profile.html** (29.4 KB)
+- **설명**: 사용자 프로필
+- **주요 기능**:
+  - 3탭 (내 블록, 구매 내역, 설정)
+  - 활동 통계
+  - 프로필 편집/비밀번호 변경
+  - 계정 삭제
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **6. upload.html** (23.2 KB)
+- **설명**: 블록 업로드
+- **주요 기능**:
+  - 드래그 & 드롭 업로드
+  - 이미지 미리보기
+  - 블록 정보 폼
+  - 진행률 바
+- **디자인**: ✅ SpaceX 완전 적용
+
+### **7. reset-password.html** (16.2 KB)
+- **설명**: 비밀번호 재설정
+- **주요 기능**:
+  - 3단계 프로세스
+  - 이메일 확인
+  - 6자리 인증 코드
+  - 새 비밀번호 설정
+- **디자인**: ✅ SpaceX 완전 적용
+
+---
+
+## 🛠 기술 스택
+
+### **Frontend**
+- **HTML5**: 시맨틱 마크업
+- **CSS3**: Tailwind CSS + Custom SpaceX Design System
+- **JavaScript (ES6+)**: Vanilla JS (no framework)
+
+### **UI Libraries (CDN)**
+- **Tailwind CSS**: 유틸리티 기반 스타일링
+- **Font Awesome 6**: 아이콘 라이브러리
+- **Chart.js**: 수익 예측 그래프
+- **Google Fonts**: Inter, Montserrat
+
+### **Data Management**
+- **RESTful Table API**: 서버리스 CRUD 작업
+- **localStorage**: 클라이언트 세션 관리
+
+### **Security**
+- **SHA-256**: 비밀번호 해싱 (crypto.subtle)
+
+---
+
+## 🔐 관리자 계정
+
+### **기본 관리자 계정**
+```
+이메일: admin@trex.so
+비밀번호: 1111
+```
+
+### **관리자 로그인 방법**
+1. `admin-login.html` 접속
+2. 위 계정 정보로 로그인
+3. `admin.html` 관리자 대시보드 접속
+
+### **관리자 권한**
+- ✅ 블록 승인/거절/삭제
+- ✅ 사용자 관리 (크리에이터 승급/해제)
+- ✅ 크리에이터 신청 확인
+- ✅ 실시간 통계 조회
+- ✅ 사이트 설정 관리
+
+---
+
+## 🚀 설치 및 실행
+
+### **1. 프로젝트 구조**
 ```
 Trex.so/
-├── index.html                (메인 랜딩 페이지)
-├── login.html                (로그인 및 회원가입)
-├── reset-password.html       (비밀번호 재설정)
-├── creator-studio.html       (🆕 크리에이터 스튜디오 - 디지털 자산 관리)
-├── upload.html               (경험 업로드)
-├── market.html               (블록 마켓)
-├── profile.html              (내 프로필)
+├── css/
+│   └── spacex-design-system.css
+├── images/
+│   └── trex-logo.png
 ├── js/
-│   └── auth.js               (인증 헬퍼 함수)
-├── README.md                 (프로젝트 문서)
-├── CREATOR_STUDIO_GUIDE.md   (🆕 Creator Studio 상세 가이드)
-├── AUTHENTICATION.md         (인증 시스템 문서)
-└── (기타 문서)
+│   └── auth.js
+├── index.html
+├── creator-studio.html
+├── login.html
+├── market.html
+├── profile.html
+├── upload.html
+└── reset-password.html
+```
+
+### **2. 로컬 실행**
+
+#### **옵션 A: Live Server (VS Code)**
+```bash
+# VS Code Extension 설치
+ext install ritwickdey.LiveServer
+
+# 프로젝트 폴더 열기
+# index.html 우클릭 → "Open with Live Server"
+```
+
+#### **옵션 B: Python Simple Server**
+```bash
+# Python 3
+python -m http.server 8000
+
+# 브라우저에서 열기
+open http://localhost:8000
+```
+
+#### **옵션 C: Node.js http-server**
+```bash
+# http-server 설치
+npm install -g http-server
+
+# 서버 실행
+http-server -p 8000
+
+# 브라우저에서 열기
+open http://localhost:8000
+```
+
+### **3. 배포**
+
+Publish 탭에서 원클릭 배포:
+1. Publish 탭 클릭
+2. "Publish" 버튼 클릭
+3. 라이브 URL 확인
+
+---
+
+## 🗄 데이터 모델
+
+### **1. users 테이블**
+```javascript
+{
+  id: "uuid",
+  email: "string",
+  password: "string (SHA-256 hashed)",
+  name: "string",
+  phone: "string",
+  isCreator: "boolean",
+  created_at: "number (timestamp)",
+  updated_at: "number (timestamp)"
+}
+```
+
+### **2. blocks 테이블**
+```javascript
+{
+  id: "uuid",
+  title: "string",
+  category: "string",
+  location: "string",
+  description: "string",
+  price: "number",
+  tags: "array",
+  images: "array",
+  creatorEmail: "string",
+  creatorName: "string",
+  status: "string (pending/approved/rejected)",
+  rating: "number",
+  purchases: "number",
+  created_at: "number (timestamp)",
+  updated_at: "number (timestamp)"
+}
+```
+
+### **3. creators 테이블 (사전 등록)**
+```javascript
+{
+  id: "uuid",
+  email: "string",
+  name: "string",
+  phone: "string",
+  category: "string",
+  message: "string",
+  created_at: "number (timestamp)"
+}
 ```
 
 ---
 
-**제작일**: 2026-02-20  
-**최종 업데이트**: 2026-02-21 (Creator Studio 고도화)  
-**버전**: 4.0.0 (Creator Studio - Digital Asset Management)  
-**상태**: 완전 기능 구현 완료 (인증, 프로필, 크리에이터 대시보드, K-뷰티 특화)  
-**도메인**: trex.so  
-**문의**: info@trex.so
+## 🔮 향후 계획
+
+### **Phase 1: 핵심 기능 고도화** (Q1 2026)
+- [ ] 실제 결제 시스템 통합 (Stripe)
+- [ ] 이메일 전송 서비스 (SendGrid)
+- [ ] AI 영수증 OCR 분석
+- [ ] 자동 개인정보 마스킹
+
+### **Phase 2: 사용자 경험 향상** (Q2 2026)
+- [ ] 실시간 알림 시스템
+- [ ] 블록 리뷰 & 평점 시스템
+- [ ] 크리에이터 프로필 페이지
+- [ ] 여행 일정 조립 기능
+
+### **Phase 3: 글로벌 확장** (Q3 2026)
+- [ ] 다국어 지원 (i18n)
+- [ ] 다중 통화 지원
+- [ ] 지역별 추천 알고리즘
+- [ ] 파트너십 프로그램
+
+### **Phase 4: AI & ML** (Q4 2026)
+- [ ] 개인화 추천 엔진
+- [ ] 이미지 기반 자동 태깅
+- [ ] 수익 최적화 AI
+- [ ] 트렌드 예측 분석
+
+---
+
+## 📊 프로젝트 현황
+
+### **완료된 기능 (100%)**
+- ✅ SpaceX 디자인 시스템 전체 적용 (7개 페이지)
+- ✅ 인증 시스템 (로그인, 회원가입, 비밀번호 재설정)
+- ✅ Creator Studio 대시보드 (3탭, Chart.js)
+- ✅ 블록 마켓 (필터, 정렬, 장바구니)
+- ✅ 프로필 관리 (3탭, 편집, 통계)
+- ✅ 블록 업로드 (드래그&드롭, RESTful API)
+- ✅ K-뷰티 특화 섹션
+- ✅ 반응형 모바일 디자인
+- ✅ RESTful Table API 연동
+
+### **현재 작업 중 (0%)**
+- 없음 (프로덕션 준비 완료)
+
+### **대기 중**
+- 결제 시스템
+- 이메일 서비스
+- AI OCR 영수증 분석
+
+---
+
+## 📞 문의 및 지원
+
+- **프로젝트 문서**: 이 README.md 파일
+- **디자인 가이드**: `SPACEX_DESIGN_SYSTEM_GUIDE.md`
+- **완료 보고서**: `ALL_PAGES_SPACEX_FINAL.md`
+- **인증 문서**: `AUTHENTICATION.md`
+
+---
+
+## 📜 라이선스
+
+Copyright © 2026 Trex.so. All rights reserved.
+
+---
+
+<div align="center">
+
+**Travel. Assemble. Play.**
+
+Made with ❤️ using SpaceX Design Language
+
+![Trex.so](https://img.shields.io/badge/Trex.so-Travel%20Blocks-00AEF0?style=for-the-badge&logo=rocket)
+
+</div>

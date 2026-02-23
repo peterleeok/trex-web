@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블록 마켓 | Trex.so</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/spacex-design-system.css">
+</head>
+<body class="bg-black text-white">
+
+<!-- Navigation -->
+<nav class="fixed w-full bg-black/95 backdrop-blur-sm z-50 border-b border-minimal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center space-x-3 group">
+                    <img src="images/trex-logo.png" alt="Trex.so" class="h-12 w-auto transition-opacity group-hover:opacity-80">
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="index.html" class="nav-link">홈</a>
+                <a href="upload.html" class="nav-link">경험 업로드</a>
+                <a href="market.html" class="text-cyan-accent font-semibold text-sm tracking-tight">블록 마켓</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="cartButton" class="relative bg-cyan-accent text-black px-4 py-2 btn-sharp font-bold hover-glow transition tracking-tight text-sm">
+                    <i class="fa-solid fa-shopping-cart mr-2"></i>장바구니
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+                <div id="authButtons" class="hidden md:block"></div>
+                <button id="mobileMenuBtn" class="md:hidden text-white hover:text-cyan-accent focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="mobileMenu" class="hidden md:hidden bg-black border-t border-minimal">
+        <div class="px-4 py-6 space-y-4">
+            <a href="index.html" class="block nav-link py-2">홈</a>
+            <a href="upload.html" class="block nav-link py-2">경험 업로드</a>
+            <a href="market.html" class="block text-cyan-accent font-semibold py-2 text-sm tracking-tight">블록 마켓</a>
+            <div id="authButtonsMobile"></div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="pt-32 pb-12 border-b border-minimal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-block bg-cyan-accent/20 text-cyan-accent px-4 py-2 btn-sharp text-xs font-bold tracking-tight mb-6">
+            BLOCK MARKETPLACE
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black tracking-tighter mb-6">
+            DISCOVER <span class="text-cyan-accent">TRAVEL BLOCKS</span>
+        </h1>
+        <p class="text-lg text-white/70 mb-8 max-w-3xl mx-auto font-light">
+            현지인이 검증한 진짜 여행 정보를 마이크로 가격으로 구매하세요.<br>
+            레고처럼 조립하여 완벽한 일정을 만드세요.
+        </p>
+    </div>
+</section>
+
+<!-- Filter Section -->
+<section class="sticky top-20 z-40 bg-black border-b border-minimal py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap gap-3">
+            <button onclick="filterBlocks('all')" class="filter-btn active bg-cyan-accent/20 text-cyan-accent px-4 py-2 btn-sharp text-xs font-bold tracking-tight transition">
+                전체
+            </button>
+            <button onclick="filterBlocks('식당')" class="filter-btn bg-dark-card text-white/60 px-4 py-2 btn-sharp text-xs font-bold tracking-tight hover:text-white transition">
+                식당
+            </button>
+            <button onclick="filterBlocks('카페')" class="filter-btn bg-dark-card text-white/60 px-4 py-2 btn-sharp text-xs font-bold tracking-tight hover:text-white transition">
+                카페
+            </button>
+            <button onclick="filterBlocks('K-뷰티')" class="filter-btn bg-dark-card text-white/60 px-4 py-2 btn-sharp text-xs font-bold tracking-tight hover:text-white transition">
+                K-뷰티
+            </button>
+            <button onclick="filterBlocks('관광지')" class="filter-btn bg-dark-card text-white/60 px-4 py-2 btn-sharp text-xs font-bold tracking-tight hover:text-white transition">
+                관광지
+            </button>
+            <button onclick="filterBlocks('쇼핑')" class="filter-btn bg-dark-card text-white/60 px-4 py-2 btn-sharp text-xs font-bold tracking-tight hover:text-white transition">
+                쇼핑
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Blocks Grid -->
+<section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-black tracking-tighter">
+                <span id="blockCount" class="text-cyan-accent">0</span><span class="text-white/60 ml-2">BLOCKS</span>
+            </h2>
+            <select id="sortSelect" class="input-spacex text-sm tracking-tight">
+                <option value="popular">인기순</option>
+                <option value="rating">평점순</option>
+                <option value="price-low">가격 낮은순</option>
+                <option value="price-high">가격 높은순</option>
+            </select>
+        </div>
+        
+        <div id="blocksGrid" class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Blocks will be loaded here -->
+        </div>
+    </div>
+</section>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-dark-card border border-minimal max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+        <div class="p-6 border-b border-minimal flex justify-between items-center">
+            <h3 class="text-2xl font-black tracking-tighter">CART</h3>
+            <button onclick="closeCart()" class="text-white/60 hover:text-cyan-accent transition">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <div id="cartItems" class="p-6">
+            <p class="text-white/40 text-center py-8 text-sm">장바구니가 비어있습니다</p>
+        </div>
+        
+        <div class="p-6 border-t border-minimal">
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-bold tracking-tight">총 금액</span>
+                <span id="cartTotal" class="text-2xl font-black text-cyan-accent tracking-tighter">$0.00</span>
+            </div>
+            <button onclick="assembleItinerary()" class="w-full bg-cyan-accent text-black py-4 btn-sharp font-bold hover-glow transition tracking-tight">
+                여행 일정 조립하기
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Itinerary Modal -->
+<div id="itineraryModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-dark-card border border-minimal max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+        <div class="p-6 border-b border-minimal flex justify-between items-center">
+            <h3 class="text-2xl font-black tracking-tighter text-cyan-accent">YOUR ITINERARY</h3>
+            <button onclick="closeItinerary()" class="text-white/60 hover:text-cyan-accent transition">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <div id="itineraryContent" class="p-6">
+            <!-- Itinerary will be displayed here -->
+        </div>
+        
+        <div class="p-6 border-t border-minimal">
+            <button onclick="confirmPurchase()" class="w-full bg-cyan-accent text-black py-4 btn-sharp font-bold hover-glow transition tracking-tight">
+                구매 확정
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="border-t border-minimal py-12 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <img src="images/trex-logo.png" alt="Trex.so" class="h-10 w-auto mb-3">
+                <p class="text-white/40 text-sm tracking-tight">© 2026 Trex.so. All rights reserved.</p>
+            </div>
+            
+            <div class="flex space-x-8">
+                <a href="#" class="text-white/60 hover:text-cyan-accent transition text-sm tracking-tight">이용약관</a>
+                <a href="#" class="text-white/60 hover:text-cyan-accent transition text-sm tracking-tight">개인정보처리방침</a>
+                <a href="#" class="text-white/60 hover:text-cyan-accent transition text-sm tracking-tight">FAQ</a>
+                <a href="#" class="text-white/60 hover:text-cyan-accent transition text-sm tracking-tight">문의</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/auth.js"></script>
+<script>
+// Auth
+window.addEventListener('DOMContentLoaded', () => {
+    renderUserInHeader('authButtons', true);
+    renderUserInHeader('authButtonsMobile', true);
+});
+
+// Mobile menu
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+
+// Cart
+let cart = [];
+
+// Load blocks
+loadBlocks();
+
+async function loadBlocks() {
+    try {
+        const response = await fetch('tables/blocks?status=approved&limit=100');
+        const result = await response.json();
+        
+        if (result.data && result.data.length > 0) {
+            window.allBlocks = result.data;
+            displayBlocks(result.data);
+        } else {
+            document.getElementById('blocksGrid').innerHTML = '<p class="text-white/40 text-center col-span-4 py-12 text-sm">등록된 블록이 없습니다.</p>';
+        }
+    } catch (error) {
+        console.error('Failed to load blocks:', error);
+        document.getElementById('blocksGrid').innerHTML = '<p class="text-red-500 text-center col-span-4 py-12 text-sm">블록을 불러오는데 실패했습니다.</p>';
+    }
+}
+
+function displayBlocks(blocks) {
+    const grid = document.getElementById('blocksGrid');
+    document.getElementById('blockCount').textContent = blocks.length;
+    
+    if (blocks.length === 0) {
+        grid.innerHTML = '<p class="text-white/40 text-center col-span-4 py-12 text-sm">해당 카테고리의 블록이 없습니다.</p>';
+        return;
+    }
+    
+    grid.innerHTML = blocks.map(block => `
+        <div class="bg-dark-card border border-minimal hover:border-cyan-accent transition cursor-pointer group">
+            <img src="${block.image_url || 'https://via.placeholder.com/400x200'}" alt="${block.title}" class="w-full h-48 object-cover">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-cyan-accent font-bold text-lg tracking-tight">$${block.price}</span>
+                    <span class="text-white/60 text-sm">⭐ ${block.rating || 0}</span>
+                </div>
+                <h4 class="font-bold text-sm mb-2 tracking-tight group-hover:text-cyan-accent transition truncate">${block.title}</h4>
+                <p class="text-white/60 text-xs mb-4 tracking-tight truncate">${block.location || ''}</p>
+                <button onclick="addToCart('${block.id}')" class="w-full bg-cyan-accent text-black py-2 btn-sharp font-bold hover-glow transition text-xs tracking-tight">
+                    <i class="fas fa-plus mr-2"></i>장바구니 추가
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterBlocks(category) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-cyan-accent/20', 'text-cyan-accent');
+        btn.classList.add('bg-dark-card', 'text-white/60');
+    });
+    event.target.classList.add('active', 'bg-cyan-accent/20', 'text-cyan-accent');
+    event.target.classList.remove('bg-dark-card', 'text-white/60');
+    
+    let filtered = window.allBlocks;
+    if (category !== 'all') {
+        filtered = window.allBlocks.filter(block => block.category === category);
+    }
+    displayBlocks(filtered);
+}
+
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+    let sorted = [...window.allBlocks];
+    
+    switch(e.target.value) {
+        case 'popular':
+            sorted.sort((a, b) => (b.purchase_count || 0) - (a.purchase_count || 0));
+            break;
+        case 'rating':
+            sorted.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+            break;
+        case 'price-low':
+            sorted.sort((a, b) => a.price - b.price);
+            break;
+        case 'price-high':
+            sorted.sort((a, b) => b.price - a.price);
+            break;
+    }
+    
+    displayBlocks(sorted);
+});
+
+function addToCart(blockId) {
+    if (!isLoggedIn()) {
+        alert('로그인이 필요한 기능입니다.');
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    const block = window.allBlocks.find(b => b.id === blockId);
+    if (block && !cart.find(item => item.id === blockId)) {
+        cart.push(block);
+        updateCartUI();
+        alert('장바구니에 추가되었습니다!');
+    }
+}
+
+function updateCartUI() {
+    document.getElementById('cartCount').textContent = cart.length;
+    
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p class="text-white/40 text-center py-8 text-sm">장바구니가 비어있습니다</p>';
+        cartTotal.textContent = '$0.00';
+        return;
+    }
+    
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    cartTotal.textContent = `$${total.toFixed(2)}`;
+    
+    cartItems.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between py-4 border-b border-minimal">
+            <div class="flex items-center space-x-4">
+                <img src="${item.image_url}" alt="${item.title}" class="w-16 h-16 object-cover">
+                <div>
+                    <h4 class="font-bold text-sm tracking-tight">${item.title}</h4>
+                    <p class="text-cyan-accent font-bold tracking-tight">$${item.price}</p>
+                </div>
+            </div>
+            <button onclick="removeFromCart('${item.id}')" class="text-white/60 hover:text-red-500 transition">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `).join('');
+}
+
+function removeFromCart(blockId) {
+    cart = cart.filter(item => item.id !== blockId);
+    updateCartUI();
+}
+
+document.getElementById('cartButton').addEventListener('click', () => {
+    document.getElementById('cartModal').classList.remove('hidden');
+    document.getElementById('cartModal').classList.add('flex');
+});
+
+function closeCart() {
+    document.getElementById('cartModal').classList.add('hidden');
+    document.getElementById('cartModal').classList.remove('flex');
+}
+
+function assembleItinerary() {
+    if (cart.length === 0) {
+        alert('장바구니가 비어있습니다.');
+        return;
+    }
+    
+    const itineraryContent = document.getElementById('itineraryContent');
+    const grouped = {};
+    
+    cart.forEach(block => {
+        const category = block.category || '기타';
+        if (!grouped[category]) grouped[category] = [];
+        grouped[category].push(block);
+    });
+    
+    let html = '<div class="space-y-6">';
+    Object.keys(grouped).forEach(category => {
+        html += `
+            <div class="bg-black/30 border border-minimal p-6">
+                <h4 class="text-lg font-black tracking-tight text-cyan-accent mb-4">${category}</h4>
+                <div class="space-y-3">
+                    ${grouped[category].map(block => `
+                        <div class="flex items-center space-x-4">
+                            <img src="${block.image_url}" alt="${block.title}" class="w-12 h-12 object-cover">
+                            <div class="flex-1">
+                                <div class="font-bold text-sm tracking-tight">${block.title}</div>
+                                <div class="text-xs text-white/60">${block.location || ''}</div>
+                            </div>
+                            <div class="text-cyan-accent font-bold tracking-tight">$${block.price}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+    
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    html += `
+        <div class="bg-dark-card border border-minimal p-6">
+            <div class="flex justify-between items-center">
+                <span class="font-bold tracking-tight">총 ${cart.length}개 블록</span>
+                <span class="text-2xl font-black text-cyan-accent tracking-tighter">$${total.toFixed(2)}</span>
+            </div>
+        </div>
+    </div>`;
+    
+    itineraryContent.innerHTML = html;
+    
+    closeCart();
+    document.getElementById('itineraryModal').classList.remove('hidden');
+    document.getElementById('itineraryModal').classList.add('flex');
+}
+
+function closeItinerary() {
+    document.getElementById('itineraryModal').classList.add('hidden');
+    document.getElementById('itineraryModal').classList.remove('flex');
+}
+
+async function confirmPurchase() {
+    const user = getCurrentUser();
+    if (!user) {
+        alert('로그인이 필요합니다.');
+        return;
+    }
+    
+    try {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        const response = await fetch('tables/trips', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_email: user.email,
+                blocks: cart.map(b => b.id),
+                total_amount: total,
+                purchase_date: new Date().toISOString(),
+                itinerary: JSON.stringify(cart),
+                status: 'completed',
+                notes: ''
+            })
+        });
+        
+        if (response.ok) {
+            alert('구매가 완료되었습니다!');
+            cart = [];
+            updateCartUI();
+            closeItinerary();
+            window.location.href = 'profile.html';
+        } else {
+            throw new Error('구매에 실패했습니다.');
+        }
+    } catch (error) {
+        alert('구매 중 오류가 발생했습니다: ' + error.message);
+    }
+}
+</script>
+
+</body>
+</html>

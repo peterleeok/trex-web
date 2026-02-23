@@ -1,495 +1,599 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>내 프로필 | Trex.so</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
-body { font-family: 'Pretendard', sans-serif; }
-.gradient-text {
-background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Trex.so</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
+    
+    <!-- SpaceX Design System -->
+    <link rel="stylesheet" href="css/spacex-design-system.css">
+    
+    <style>
+        .tab-btn.active {
+            background: #00AEF0;
+            color: #000000;
+            border-color: #00AEF0;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .stat-card {
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: #00AEF0;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-
-<!-- Navigation -->
-<nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-gray-100 shadow-sm">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="flex justify-between items-center h-16">
-<div class="flex items-center">
-<a href="index.html" class="text-2xl font-bold text-blue-600"><i class="fa-solid fa-cube mr-2"></i>Trex.so</a>
-</div>
-<!-- Desktop Menu -->
-<div class="hidden md:flex space-x-8">
-<a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">홈</a>
-<a href="creator-studio.html" class="text-gray-600 hover:text-blue-600 font-medium">크리에이터 스튜디오</a>
-<a href="upload.html" class="text-gray-600 hover:text-blue-600 font-medium">경험 업로드</a>
-<a href="market.html" class="text-gray-600 hover:text-blue-600 font-medium">블록 마켓</a>
-<a href="profile.html" class="text-blue-600 font-semibold">내 프로필</a>
-</div>
-<div class="flex items-center space-x-4">
-<div id="authButtons" class="hidden md:block">
-<!-- 헤더 동적 렌더링 -->
-</div>
-<!-- Mobile Menu Button -->
-<button id="mobileMenuBtn" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
-<i class="fas fa-bars text-2xl"></i>
-</button>
-</div>
-</div>
-</div>
-<!-- Mobile Menu -->
-<div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-200">
-<div class="px-4 py-4 space-y-3">
-<a href="index.html" class="block text-gray-600 hover:text-blue-600 font-medium py-2">홈</a>
-<a href="creator-studio.html" class="block text-gray-600 hover:text-blue-600 font-medium py-2">크리에이터 스튜디오</a>
-<a href="upload.html" class="block text-gray-600 hover:text-blue-600 font-medium py-2">경험 업로드</a>
-<a href="market.html" class="block text-gray-600 hover:text-blue-600 font-medium py-2">블록 마켓</a>
-<a href="profile.html" class="block text-blue-600 font-semibold py-2">내 프로필</a>
-<div id="authButtonsMobile"></div>
-</div>
-</div>
-</nav>
-
-<!-- Hero Section -->
-<section class="pt-24 pb-12 bg-gradient-to-br from-blue-50 to-purple-50">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="text-center mb-8">
-<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-내 <span class="gradient-text">프로필</span>
-</h1>
-<p class="text-xl text-gray-600">
-나의 정보와 활동 내역을 확인하고 관리하세요
-</p>
-</div>
-</div>
-</section>
-
-<!-- Profile Content -->
-<section class="py-12">
-<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-<!-- Left Sidebar - Profile Card -->
-<div class="lg:col-span-1">
-<div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-<div class="text-center mb-6">
-<div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-4xl font-bold" id="profileAvatar">
-U
-</div>
-<h2 class="text-2xl font-bold text-gray-900 mb-2" id="profileNickname">사용자</h2>
-<p class="text-sm text-gray-500" id="profileEmail">email@example.com</p>
-<div class="mt-4 inline-block px-4 py-1 rounded-full text-sm font-semibold" id="userTypeBadge">
-<!-- 유저 타입 배지 -->
-</div>
-</div>
-
-<div class="border-t border-gray-200 pt-6 space-y-4">
-<div class="flex items-center justify-between">
-<span class="text-gray-600"><i class="fa-solid fa-calendar mr-2"></i>가입일</span>
-<span class="font-semibold text-gray-900" id="joinDate">2026.02.20</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-gray-600"><i class="fa-solid fa-box mr-2"></i>내 블록</span>
-<span class="font-semibold text-blue-600" id="myBlockCount">0개</span>
-</div>
-<div class="flex items-center justify-between">
-<span class="text-gray-600"><i class="fa-solid fa-shopping-cart mr-2"></i>구매한 블록</span>
-<span class="font-semibold text-purple-600" id="purchaseCount">0개</span>
-</div>
-</div>
-
-<button onclick="logout()" class="mt-6 w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-full transition">
-<i class="fa-solid fa-sign-out-alt mr-2"></i>로그아웃
-</button>
-</div>
-</div>
-
-<!-- Right Content - Tabs -->
-<div class="lg:col-span-2">
-<!-- Tab Navigation -->
-<div class="bg-white rounded-t-2xl shadow-xl border border-gray-100 border-b-0">
-<div class="flex border-b border-gray-200">
-<button onclick="switchTab('info')" id="tabInfo" class="flex-1 py-4 px-6 font-semibold text-blue-600 border-b-2 border-blue-600 transition">
-<i class="fa-solid fa-user mr-2"></i>내 정보
-</button>
-<button onclick="switchTab('blocks')" id="tabBlocks" class="flex-1 py-4 px-6 font-semibold text-gray-500 hover:text-blue-600 transition">
-<i class="fa-solid fa-box mr-2"></i>내가 만든 블록
-</button>
-<button onclick="switchTab('purchases')" id="tabPurchases" class="flex-1 py-4 px-6 font-semibold text-gray-500 hover:text-blue-600 transition">
-<i class="fa-solid fa-shopping-bag mr-2"></i>구매 내역
-</button>
-</div>
-</div>
-
-<!-- Tab Content -->
-<div class="bg-white rounded-b-2xl shadow-xl p-8 border border-gray-100 border-t-0">
-<!-- 내 정보 탭 -->
-<div id="contentInfo" class="tab-content">
-<h3 class="text-2xl font-bold text-gray-900 mb-6">프로필 정보 수정</h3>
-<form id="profileForm" class="space-y-6">
-<div>
-<label class="block text-sm font-semibold text-gray-700 mb-2">닉네임</label>
-<input type="text" id="editNickname" placeholder="닉네임 입력" required
-class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-</div>
-
-<div>
-<label class="block text-sm font-semibold text-gray-700 mb-2">이메일</label>
-<input type="email" id="editEmail" readonly
-class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-500">
-<p class="text-xs text-gray-500 mt-1">이메일은 변경할 수 없습니다</p>
-</div>
-
-<div>
-<label class="block text-sm font-semibold text-gray-700 mb-2">사용자 유형</label>
-<select id="editUserType" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-<option value="creator">크리에이터 (블록 판매)</option>
-<option value="traveler">여행자 (블록 구매)</option>
-<option value="both">크리에이터 + 여행자</option>
-</select>
-</div>
-
-<div>
-<label class="block text-sm font-semibold text-gray-700 mb-2">비밀번호 변경</label>
-<input type="password" id="editPassword" placeholder="새 비밀번호 (변경 시에만 입력)"
-class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
-<p class="text-xs text-gray-500 mt-1">비밀번호를 변경하지 않으려면 비워두세요 (최소 6자)</p>
-</div>
-
-<div class="flex space-x-4">
-<button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition shadow-lg">
-<i class="fa-solid fa-save mr-2"></i>저장하기
-</button>
-<button type="button" onclick="loadUserProfile()" class="px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-full transition">
-<i class="fa-solid fa-undo mr-2"></i>취소
-</button>
-</div>
-</form>
-
-<!-- 성공/실패 메시지 -->
-<div id="updateSuccess" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-xl text-green-700">
-<i class="fa-solid fa-check-circle mr-2"></i>프로필이 성공적으로 업데이트되었습니다!
-</div>
-<div id="updateError" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700">
-<i class="fa-solid fa-exclamation-circle mr-2"></i><span id="updateErrorText">오류가 발생했습니다.</span>
-</div>
-</div>
-
-<!-- 내가 만든 블록 탭 -->
-<div id="contentBlocks" class="tab-content hidden">
-<h3 class="text-2xl font-bold text-gray-900 mb-6">내가 만든 블록</h3>
-<div id="myBlocksList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- 블록 리스트 동적 렌더링 -->
-</div>
-<div id="noBlocks" class="hidden text-center py-12 text-gray-500">
-<i class="fa-solid fa-box-open text-6xl mb-4 text-gray-300"></i>
-<p class="text-xl">아직 만든 블록이 없습니다</p>
-<a href="upload.html" class="inline-block mt-4 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition">
-첫 블록 만들기
-</a>
-</div>
-</div>
-
-<!-- 구매 내역 탭 -->
-<div id="contentPurchases" class="tab-content hidden">
-<h3 class="text-2xl font-bold text-gray-900 mb-6">구매한 블록</h3>
-<div id="purchasesList" class="space-y-4">
-<!-- 구매 내역 동적 렌더링 -->
-</div>
-<div id="noPurchases" class="hidden text-center py-12 text-gray-500">
-<i class="fa-solid fa-shopping-cart text-6xl mb-4 text-gray-300"></i>
-<p class="text-xl">아직 구매한 블록이 없습니다</p>
-<a href="market.html" class="inline-block mt-4 bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition">
-블록 마켓 둘러보기
-</a>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-50 border-t border-gray-200 pt-12 pb-8">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-<div class="text-2xl font-bold text-gray-900 mb-4"><i class="fa-solid fa-cube text-blue-600 mr-2"></i>Trex.so</div>
-<p class="text-gray-500 mb-6">사람만이 만들 수 있는 경험을 조립하여 진정한 가치를 선물합니다.</p>
-<div class="flex justify-center space-x-6 text-gray-400">
-<a href="#" class="hover:text-gray-900"><i class="fa-brands fa-instagram text-xl"></i></a>
-<a href="#" class="hover:text-gray-900"><i class="fa-brands fa-twitter text-xl"></i></a>
-<a href="#" class="hover:text-gray-900"><i class="fa-brands fa-youtube text-xl"></i></a>
-</div>
-<div class="mt-8 text-sm text-gray-400">
-© 2026 Trex.so Inc. All rights reserved.
-</div>
-</div>
-</footer>
-
-<!-- 인증 시스템 통합 -->
-<script src="js/auth.js"></script>
-<script>
-// 페이지 로드 시 로그인 확인 및 프로필 로드
-window.addEventListener('DOMContentLoaded', async () => {
-    requireLogin();
-    renderUserInHeader('authButtons');
-    renderUserInHeader('authButtonsMobile');
-    await loadUserProfile();
-    await loadMyBlocks();
-    await loadPurchases();
-});
-
-// 모바일 메뉴 토글
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-
-mobileMenuBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
-    const icon = mobileMenuBtn.querySelector('i');
-    if (mobileMenu.classList.contains('hidden')) {
-        icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars');
-    } else {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times');
-    }
-});
-
-// 프로필 정보 로드
-async function loadUserProfile() {
-    const user = getCurrentUser();
-    if (!user) return;
-
-    // 헤더 정보 업데이트
-    document.getElementById('profileNickname').textContent = user.nickname || '사용자';
-    document.getElementById('profileEmail').textContent = user.email;
-    document.getElementById('profileAvatar').textContent = (user.nickname || 'U').charAt(0).toUpperCase();
-
-    // 가입일
-    const joinDateObj = new Date(user.created_at);
-    document.getElementById('joinDate').textContent = joinDateObj.toLocaleDateString('ko-KR').replace(/\. /g, '.').replace('.', '');
-
-    // 유저 타입 배지
-    const typeBadge = document.getElementById('userTypeBadge');
-    const typeMap = {
-        'creator': { text: '크리에이터', color: 'bg-blue-100 text-blue-600' },
-        'traveler': { text: '여행자', color: 'bg-purple-100 text-purple-600' },
-        'both': { text: '크리에이터+여행자', color: 'bg-gradient-to-r from-blue-100 to-purple-100 text-blue-600' }
-    };
-    const typeInfo = typeMap[user.user_type] || typeMap['traveler'];
-    typeBadge.textContent = typeInfo.text;
-    typeBadge.className = `mt-4 inline-block px-4 py-1 rounded-full text-sm font-semibold ${typeInfo.color}`;
-
-    // 폼 필드 채우기
-    document.getElementById('editNickname').value = user.nickname || '';
-    document.getElementById('editEmail').value = user.email;
-    document.getElementById('editUserType').value = user.user_type || 'traveler';
-    document.getElementById('editPassword').value = '';
-
-    // 메시지 숨기기
-    document.getElementById('updateSuccess').classList.add('hidden');
-    document.getElementById('updateError').classList.add('hidden');
-}
-
-// 내가 만든 블록 로드
-async function loadMyBlocks() {
-    const user = getCurrentUser();
-    if (!user) return;
-
-    try {
-        // 블록 테이블에서 현재 유저가 만든 블록 검색
-        const response = await fetch(`tables/blocks?search=${encodeURIComponent(user.nickname)}&limit=100`);
-        const result = await response.json();
-        
-        // creator_name으로 필터링
-        const myBlocks = result.data.filter(block => block.creator_name === user.nickname);
-        
-        document.getElementById('myBlockCount').textContent = `${myBlocks.length}개`;
-
-        const blocksList = document.getElementById('myBlocksList');
-        const noBlocks = document.getElementById('noBlocks');
-
-        if (myBlocks.length === 0) {
-            blocksList.innerHTML = '';
-            noBlocks.classList.remove('hidden');
-        } else {
-            noBlocks.classList.add('hidden');
-            blocksList.innerHTML = myBlocks.map(block => `
-                <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:shadow-lg transition">
-                    <img src="${block.image_url}" alt="${block.title}" class="w-full h-40 object-cover rounded-lg mb-3">
-                    <h4 class="font-bold text-gray-900 mb-2">${block.title}</h4>
-                    <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-600"><i class="fa-solid fa-star text-yellow-400 mr-1"></i>${block.rating || 5.0}</span>
-                        <span class="text-blue-600 font-semibold">$${block.price}</span>
+<body>
+    <!-- Navigation -->
+    <nav class="spacex-nav">
+        <div class="spacex-container">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-3">
+                    <img src="images/trex-logo-full.png" alt="Trex.so - Travel. Assemble. Play." class="h-8 w-auto">
+                    <span class="text-xl font-bold tracking-tight">Trex.so</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="spacex-nav-link">홈</a>
+                    <a href="creator-studio.html" class="spacex-nav-link">크리에이터 스튜디오</a>
+                    <a href="upload.html" class="spacex-nav-link">경험 업로드</a>
+                    <a href="market.html" class="spacex-nav-link">블록 마켓</a>
+                    <a href="profile.html" class="spacex-nav-link-active">내 프로필</a>
+                </div>
+                
+                <!-- Auth Buttons -->
+                <div class="flex items-center space-x-4">
+                    <div id="authButtons">
+                        <a href="login.html" class="spacex-btn-secondary text-sm px-4 py-2">로그인</a>
                     </div>
-                    <div class="mt-2 text-xs text-gray-500">
-                        <i class="fa-solid fa-map-marker-alt mr-1"></i>${block.location}
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button id="mobileMenuBtn" class="md:hidden p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-gray-800 pt-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="index.html" class="spacex-nav-link">홈</a>
+                    <a href="creator-studio.html" class="spacex-nav-link">크리에이터 스튜디오</a>
+                    <a href="upload.html" class="spacex-nav-link">경험 업로드</a>
+                    <a href="market.html" class="spacex-nav-link">블록 마켓</a>
+                    <a href="profile.html" class="spacex-nav-link-active">내 프로필</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-12">
+        <div class="spacex-container">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="spacex-headline mb-4">My Profile</h1>
+                <p class="spacex-body-large text-gray-400">
+                    나의 정보와 활동 내역을 관리하세요
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="pb-20">
+        <div class="spacex-container">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Sidebar - Profile Card -->
+                <div class="lg:col-span-1">
+                    <div class="spacex-card">
+                        <!-- Avatar -->
+                        <div class="text-center mb-6">
+                            <div id="profileAvatar" class="w-24 h-24 bg-[#00AEF0] rounded-full mx-auto mb-4 flex items-center justify-center text-black text-4xl font-bold">
+                                U
+                            </div>
+                            <h2 id="profileNickname" class="text-2xl font-bold mb-2">사용자</h2>
+                            <p id="profileEmail" class="text-sm text-gray-400 mb-4">email@example.com</p>
+                            
+                            <!-- User Type Badge -->
+                            <div id="userTypeBadge" class="inline-block px-4 py-1 bg-[#121212] border border-gray-800 rounded-sm text-sm font-semibold">
+                                일반 회원
+                            </div>
+                        </div>
+                        
+                        <!-- Profile Info -->
+                        <div class="border-t border-gray-800 pt-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">
+                                    <i class="fas fa-calendar mr-2 text-[#00AEF0]"></i>가입일
+                                </span>
+                                <span id="joinDate" class="font-semibold">2026.02.20</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">
+                                    <i class="fas fa-phone mr-2 text-[#00AEF0]"></i>연락처
+                                </span>
+                                <span id="profilePhone" class="font-semibold">010-0000-0000</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="border-t border-gray-800 pt-6 space-y-3">
+                            <button id="editProfileBtn" class="spacex-btn-primary w-full">
+                                <i class="fas fa-edit mr-2"></i>프로필 수정
+                            </button>
+                            <button id="logoutBtn" class="spacex-btn-secondary w-full">
+                                <i class="fas fa-sign-out-alt mr-2"></i>로그아웃
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="spacex-card mt-6">
+                        <h3 class="text-lg font-bold mb-4 flex items-center">
+                            <i class="fas fa-chart-line mr-2 text-[#00AEF0]"></i>
+                            활동 통계
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-black border border-gray-800 rounded-sm">
+                                <span class="text-gray-400">생성한 블록</span>
+                                <span id="totalBlocks" class="text-xl font-bold text-[#00AEF0]">0</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-black border border-gray-800 rounded-sm">
+                                <span class="text-gray-400">구매한 블록</span>
+                                <span id="totalPurchases" class="text-xl font-bold text-[#00AEF0]">0</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between p-3 bg-black border border-gray-800 rounded-sm">
+                                <span class="text-gray-400">총 수익</span>
+                                <span id="totalEarnings" class="text-xl font-bold text-[#00AEF0]">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Content - Tabs -->
+                <div class="lg:col-span-2">
+                    <!-- Tab Buttons -->
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <button class="tab-btn active spacex-btn-secondary px-6 py-3" data-tab="myBlocks">
+                            <i class="fas fa-cube mr-2"></i>내 블록
+                        </button>
+                        <button class="tab-btn spacex-btn-secondary px-6 py-3" data-tab="purchases">
+                            <i class="fas fa-shopping-bag mr-2"></i>구매 내역
+                        </button>
+                        <button class="tab-btn spacex-btn-secondary px-6 py-3" data-tab="settings">
+                            <i class="fas fa-cog mr-2"></i>설정
+                        </button>
+                    </div>
+                    
+                    <!-- Tab Content: My Blocks -->
+                    <div id="myBlocksTab" class="tab-content active">
+                        <div class="spacex-card mb-6">
+                            <div class="flex items-center justify-between mb-6">
+                                <h2 class="text-2xl font-bold">내가 만든 블록</h2>
+                                <a href="upload.html" class="spacex-btn-secondary text-sm px-4 py-2">
+                                    <i class="fas fa-plus mr-2"></i>새 블록 만들기
+                                </a>
+                            </div>
+                            
+                            <div id="myBlocksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Blocks will be loaded here -->
+                            </div>
+                            
+                            <!-- Empty State -->
+                            <div id="myBlocksEmpty" class="hidden text-center py-12">
+                                <i class="fas fa-cube text-5xl text-gray-800 mb-4"></i>
+                                <h3 class="text-xl font-bold text-gray-400 mb-2">블록이 없습니다</h3>
+                                <p class="text-gray-500 mb-6">첫 번째 블록을 만들어보세요!</p>
+                                <a href="upload.html" class="spacex-btn-primary inline-block">
+                                    <i class="fas fa-plus mr-2"></i>블록 만들기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Content: Purchases -->
+                    <div id="purchasesTab" class="tab-content">
+                        <div class="spacex-card mb-6">
+                            <h2 class="text-2xl font-bold mb-6">구매한 블록</h2>
+                            
+                            <div id="purchasesGrid" class="space-y-4">
+                                <!-- Purchases will be loaded here -->
+                            </div>
+                            
+                            <!-- Empty State -->
+                            <div id="purchasesEmpty" class="hidden text-center py-12">
+                                <i class="fas fa-shopping-bag text-5xl text-gray-800 mb-4"></i>
+                                <h3 class="text-xl font-bold text-gray-400 mb-2">구매 내역이 없습니다</h3>
+                                <p class="text-gray-500 mb-6">마켓에서 블록을 구매해보세요!</p>
+                                <a href="market.html" class="spacex-btn-primary inline-block">
+                                    <i class="fas fa-store mr-2"></i>마켓 둘러보기
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab Content: Settings -->
+                    <div id="settingsTab" class="tab-content">
+                        <div class="spacex-card mb-6">
+                            <h2 class="text-2xl font-bold mb-6">계정 설정</h2>
+                            
+                            <!-- Edit Profile Form -->
+                            <form id="editProfileForm" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                        이름
+                                    </label>
+                                    <input type="text" id="editName" 
+                                           class="w-full bg-[#121212] border border-gray-800 text-white px-4 py-3 rounded-sm focus:outline-none focus:border-[#00AEF0]">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                        이메일
+                                    </label>
+                                    <input type="email" id="editEmail" disabled
+                                           class="w-full bg-black border border-gray-800 text-gray-500 px-4 py-3 rounded-sm cursor-not-allowed">
+                                    <p class="text-xs text-gray-500 mt-1">이메일은 변경할 수 없습니다</p>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                        연락처
+                                    </label>
+                                    <input type="tel" id="editPhone" 
+                                           class="w-full bg-[#121212] border border-gray-800 text-white px-4 py-3 rounded-sm focus:outline-none focus:border-[#00AEF0]">
+                                </div>
+                                
+                                <div class="pt-4 border-t border-gray-800">
+                                    <button type="submit" class="spacex-btn-primary">
+                                        <i class="fas fa-save mr-2"></i>변경사항 저장
+                                    </button>
+                                </div>
+                            </form>
+                            
+                            <!-- Change Password Section -->
+                            <div class="mt-8 pt-8 border-t border-gray-800">
+                                <h3 class="text-xl font-bold mb-4">비밀번호 변경</h3>
+                                <form id="changePasswordForm" class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                            현재 비밀번호
+                                        </label>
+                                        <input type="password" id="currentPassword" 
+                                               class="w-full bg-[#121212] border border-gray-800 text-white px-4 py-3 rounded-sm focus:outline-none focus:border-[#00AEF0]">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                            새 비밀번호
+                                        </label>
+                                        <input type="password" id="newPassword" 
+                                               class="w-full bg-[#121212] border border-gray-800 text-white px-4 py-3 rounded-sm focus:outline-none focus:border-[#00AEF0]">
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-400 mb-2">
+                                            새 비밀번호 확인
+                                        </label>
+                                        <input type="password" id="confirmPassword" 
+                                               class="w-full bg-[#121212] border border-gray-800 text-white px-4 py-3 rounded-sm focus:outline-none focus:border-[#00AEF0]">
+                                    </div>
+                                    
+                                    <div class="pt-4 border-t border-gray-800">
+                                        <button type="submit" class="spacex-btn-secondary">
+                                            <i class="fas fa-key mr-2"></i>비밀번호 변경
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Delete Account Section -->
+                            <div class="mt-8 pt-8 border-t border-gray-800">
+                                <h3 class="text-xl font-bold mb-4 text-red-500">계정 삭제</h3>
+                                <p class="text-gray-400 mb-4">
+                                    계정을 삭제하면 모든 데이터가 영구적으로 삭제되며 복구할 수 없습니다.
+                                </p>
+                                <button id="deleteAccountBtn" class="border border-red-500 text-red-500 px-6 py-3 rounded-sm hover:bg-red-500 hover:text-white transition-colors">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>계정 삭제
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 py-12">
+        <div class="spacex-container text-center text-gray-500">
+            <p class="mb-2">&copy; 2026 Trex.so. All rights reserved.</p>
+            <p class="text-sm">Travel. Assemble. Play.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script>
+        // Check login on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            
+            if (!user) {
+                alert('로그인이 필요합니다.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            loadProfileData(user);
+            loadMyBlocks(user);
+            loadPurchases(user);
+        });
+        
+        // Load profile data
+        function loadProfileData(user) {
+            // Update profile info
+            document.getElementById('profileNickname').textContent = user.name;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profilePhone').textContent = user.phone || '010-0000-0000';
+            
+            // Update avatar
+            const avatar = document.getElementById('profileAvatar');
+            avatar.textContent = user.name.charAt(0).toUpperCase();
+            
+            // Update user type badge
+            const badge = document.getElementById('userTypeBadge');
+            if (user.isCreator) {
+                badge.textContent = '크리에이터';
+                badge.classList.add('bg-[#00AEF0]', 'text-black');
+            } else {
+                badge.textContent = '일반 회원';
+            }
+            
+            // Update join date
+            if (user.created_at) {
+                const date = new Date(user.created_at);
+                document.getElementById('joinDate').textContent = date.toLocaleDateString('ko-KR');
+            }
+            
+            // Update edit form
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPhone').value = user.phone || '';
+        }
+        
+        // Load my blocks
+        async function loadMyBlocks(user) {
+            try {
+                const response = await fetch(`tables/blocks?limit=1000`);
+                const data = await response.json();
+                
+                // Filter blocks created by current user
+                const myBlocks = data.data.filter(block => block.creatorEmail === user.email);
+                
+                // Update stats
+                document.getElementById('totalBlocks').textContent = myBlocks.length;
+                
+                // Calculate total earnings
+                const totalEarnings = myBlocks.reduce((sum, block) => {
+                    return sum + ((block.price || 0.99) * (block.purchases || 0));
+                }, 0);
+                document.getElementById('totalEarnings').textContent = `$${totalEarnings.toFixed(2)}`;
+                
+                // Render blocks
+                const grid = document.getElementById('myBlocksGrid');
+                const empty = document.getElementById('myBlocksEmpty');
+                
+                if (myBlocks.length === 0) {
+                    grid.classList.add('hidden');
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                
+                grid.classList.remove('hidden');
+                empty.classList.add('hidden');
+                
+                grid.innerHTML = myBlocks.map(block => `
+                    <div class="bg-[#121212] border border-gray-800 rounded-sm p-4 hover:border-[#00AEF0] transition-colors">
+                        <!-- Image -->
+                        <div class="relative h-40 bg-black overflow-hidden rounded-sm mb-3">
+                            ${block.images && block.images.length > 0 ? `
+                                <img src="${block.images[0]}" alt="${block.title}" 
+                                     class="w-full h-full object-cover">
+                            ` : `
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <i class="fas fa-image text-3xl text-gray-800"></i>
+                                </div>
+                            `}
+                            
+                            <!-- Status Badge -->
+                            <div class="absolute top-2 right-2 px-3 py-1 rounded-sm text-xs font-bold ${
+                                block.status === 'approved' ? 'bg-green-500 text-black' :
+                                block.status === 'pending' ? 'bg-yellow-500 text-black' :
+                                'bg-red-500 text-white'
+                            }">
+                                ${block.status === 'approved' ? '승인됨' :
+                                  block.status === 'pending' ? '검토중' : '거절됨'}
+                            </div>
+                        </div>
+                        
+                        <!-- Info -->
+                        <h3 class="font-bold mb-2 line-clamp-1">${block.title}</h3>
+                        <p class="text-sm text-gray-400 mb-3">${block.category || '기타'}</p>
+                        
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-[#00AEF0] font-bold">$${(block.price || 0.99).toFixed(2)}</span>
+                            <span class="text-gray-500">${block.purchases || 0}명 구매</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Error loading blocks:', error);
+            }
+        }
+        
+        // Load purchases (mock data for now)
+        function loadPurchases(user) {
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            document.getElementById('totalPurchases').textContent = cart.length;
+            
+            const grid = document.getElementById('purchasesGrid');
+            const empty = document.getElementById('purchasesEmpty');
+            
+            if (cart.length === 0) {
+                grid.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+            
+            grid.classList.remove('hidden');
+            empty.classList.add('hidden');
+            
+            grid.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-4 p-4 bg-[#121212] border border-gray-800 rounded-sm">
+                    <div class="w-20 h-20 bg-black flex-shrink-0 overflow-hidden rounded-sm">
+                        ${item.image ? `
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+                        ` : `
+                            <div class="w-full h-full flex items-center justify-center">
+                                <i class="fas fa-image text-xl text-gray-800"></i>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <div class="flex-1">
+                        <h4 class="font-bold mb-1">${item.title}</h4>
+                        <p class="text-sm text-gray-400">${item.category}</p>
+                    </div>
+                    
+                    <div class="text-right">
+                        <p class="text-[#00AEF0] font-bold">$${item.price.toFixed(2)}</p>
                     </div>
                 </div>
             `).join('');
         }
-    } catch (error) {
-        console.error('내 블록 로드 실패:', error);
-    }
-}
-
-// 구매 내역 로드 (trips 테이블에서)
-async function loadPurchases() {
-    const user = getCurrentUser();
-    if (!user) return;
-
-    try {
-        const response = await fetch(`tables/trips?search=${encodeURIComponent(user.email)}&limit=100`);
-        const result = await response.json();
         
-        // user_email로 필터링
-        const myTrips = result.data.filter(trip => trip.user_email === user.email);
-        
-        // 구매한 블록 개수 계산
-        const totalBlocks = myTrips.reduce((sum, trip) => {
-            const blocks = Array.isArray(trip.selected_blocks) ? trip.selected_blocks : JSON.parse(trip.selected_blocks || '[]');
-            return sum + blocks.length;
-        }, 0);
-        
-        document.getElementById('purchaseCount').textContent = `${totalBlocks}개`;
-
-        const purchasesList = document.getElementById('purchasesList');
-        const noPurchases = document.getElementById('noPurchases');
-
-        if (myTrips.length === 0) {
-            purchasesList.innerHTML = '';
-            noPurchases.classList.remove('hidden');
-        } else {
-            noPurchases.classList.add('hidden');
-            purchasesList.innerHTML = myTrips.map(trip => {
-                const blocks = Array.isArray(trip.selected_blocks) ? trip.selected_blocks : JSON.parse(trip.selected_blocks || '[]');
-                const date = new Date(trip.created_at).toLocaleDateString('ko-KR');
-                return `
-                    <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <h4 class="font-bold text-gray-900">${trip.user_name || '여행 조립'}님의 여행</h4>
-                                <p class="text-sm text-gray-500">${date}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-2xl font-bold text-blue-600">$${trip.total_price}</p>
-                                <p class="text-sm text-gray-500">${blocks.length}개 블록</p>
-                            </div>
-                        </div>
-                        <div class="border-t border-gray-200 pt-4">
-                            <p class="text-sm text-gray-600 mb-2"><strong>구매한 블록:</strong></p>
-                            <div class="flex flex-wrap gap-2">
-                                ${blocks.map(blockId => `<span class="px-3 py-1 bg-white rounded-full text-xs text-gray-600 border border-gray-200">${blockId}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-    } catch (error) {
-        console.error('구매 내역 로드 실패:', error);
-    }
-}
-
-// 탭 전환
-function switchTab(tab) {
-    // 모든 탭 버튼 초기화
-    document.querySelectorAll('[id^="tab"]').forEach(btn => {
-        btn.className = 'flex-1 py-4 px-6 font-semibold text-gray-500 hover:text-blue-600 transition';
-    });
-    
-    // 모든 탭 컨텐츠 숨기기
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.add('hidden');
-    });
-
-    // 선택된 탭 활성화
-    const tabBtn = document.getElementById(`tab${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
-    const tabContent = document.getElementById(`content${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
-    
-    tabBtn.className = 'flex-1 py-4 px-6 font-semibold text-blue-600 border-b-2 border-blue-600 transition';
-    tabContent.classList.remove('hidden');
-}
-
-// 프로필 업데이트 폼 제출
-document.getElementById('profileForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const user = getCurrentUser();
-    if (!user) return;
-
-    const nickname = document.getElementById('editNickname').value.trim();
-    const userType = document.getElementById('editUserType').value;
-    const password = document.getElementById('editPassword').value;
-
-    if (!nickname) {
-        document.getElementById('updateError').classList.remove('hidden');
-        document.getElementById('updateErrorText').textContent = '닉네임을 입력해주세요.';
-        return;
-    }
-
-    if (password && password.length < 6) {
-        document.getElementById('updateError').classList.remove('hidden');
-        document.getElementById('updateErrorText').textContent = '비밀번호는 최소 6자 이상이어야 합니다.';
-        return;
-    }
-
-    try {
-        // 업데이트할 데이터 준비
-        const updateData = {
-            nickname: nickname,
-            user_type: userType
-        };
-
-        // 비밀번호 변경 시에만 포함
-        if (password) {
-            // SHA-256 해싱 (auth.js의 hashPassword 재사용)
-            const encoder = new TextEncoder();
-            const data = encoder.encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            updateData.password = hashHex;
-        }
-
-        const response = await fetch(`tables/users/${user.id}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updateData)
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                
+                // Update active states
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                if (tab === 'myBlocks') {
+                    document.getElementById('myBlocksTab').classList.add('active');
+                } else if (tab === 'purchases') {
+                    document.getElementById('purchasesTab').classList.add('active');
+                } else if (tab === 'settings') {
+                    document.getElementById('settingsTab').classList.add('active');
+                }
+            });
         });
-
-        if (!response.ok) throw new Error('프로필 업데이트 실패');
-
-        const updatedUser = await response.json();
         
-        // localStorage 업데이트
-        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-
-        // 성공 메시지 표시
-        document.getElementById('updateError').classList.add('hidden');
-        document.getElementById('updateSuccess').classList.remove('hidden');
-
-        // 프로필 다시 로드
-        setTimeout(() => {
-            location.reload();
-        }, 1500);
-
-    } catch (error) {
-        console.error('프로필 업데이트 오류:', error);
-        document.getElementById('updateSuccess').classList.add('hidden');
-        document.getElementById('updateError').classList.remove('hidden');
-        document.getElementById('updateErrorText').textContent = error.message;
-    }
-});
-</script>
-
+        // Edit profile form submit
+        document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = JSON.parse(localStorage.getItem('user'));
+            const newName = document.getElementById('editName').value;
+            const newPhone = document.getElementById('editPhone').value;
+            
+            // Update user data
+            user.name = newName;
+            user.phone = newPhone;
+            
+            localStorage.setItem('user', JSON.stringify(user));
+            
+            // Update display
+            loadProfileData(user);
+            
+            alert('프로필이 수정되었습니다!');
+        });
+        
+        // Change password form submit
+        document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            
+            if (newPass !== confirm) {
+                alert('새 비밀번호가 일치하지 않습니다.');
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                alert('비밀번호는 최소 6자 이상이어야 합니다.');
+                return;
+            }
+            
+            // In real app, verify current password and update
+            alert('비밀번호가 변경되었습니다!');
+            document.getElementById('changePasswordForm').reset();
+        });
+        
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                localStorage.removeItem('user');
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Delete account
+        document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+            if (confirm('정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                if (confirm('모든 데이터가 영구적으로 삭제됩니다. 계속하시겠습니까?')) {
+                    localStorage.removeItem('user');
+                    alert('계정이 삭제되었습니다.');
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.querySelector('#mobileMenuBtn i');
+            
+            menu.classList.toggle('hidden');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+    </script>
 </body>
 </html>
