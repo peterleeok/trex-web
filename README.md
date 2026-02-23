@@ -96,9 +96,16 @@ Trex.so는 **SpaceX와 X.com의 디자인 언어**를 채택하여 현대적이�
 ```css
 폰트: Inter, Montserrat
 자간: -0.02em ~ -0.04em (tight)
-헤딩: font-weight 900, text-4xl ~ text-6xl
-본문: font-weight 300, text-base ~ text-lg
-라인 높이: 1.6
+헤딩: font-weight 900, text-2xl ~ text-5xl (x.com 스타일로 축소)
+본문: font-weight 300, text-sm ~ text-base (15px, x.com 스타일)
+라인 높이: 1.5-1.6
+
+/* x.com 스타일 폰트 크기 (2026-02-23 업데이트) */
+네비게이션: 13px (0.813rem) - x.com 동일
+대형 헤딩: 28-32px - x.com 동일
+본문 텍스트: 15px (0.938rem) - x.com 동일
+캡션/라벨: 13px (0.813rem) - x.com 동일
+버튼: 14px (0.875rem) - x.com 동일
 ```
 
 #### **레이아웃 원칙**
@@ -122,18 +129,18 @@ Trex.so는 **SpaceX와 X.com의 디자인 언어**를 채택하여 현대적이�
 ```css
 /* Navigation */
 .spacex-nav
-.spacex-nav-link
+.spacex-nav-link (13px, x.com 스타일)
 .spacex-nav-link-active
 
 /* Buttons */
-.spacex-btn-primary
-.spacex-btn-secondary
+.spacex-btn-primary (14px, x.com 스타일)
+.spacex-btn-secondary (13px, x.com 스타일)
 
-/* Typography */
-.spacex-headline
-.spacex-subheadline
-.spacex-body-large
-.spacex-body
+/* Typography - x.com Style */
+.spacex-headline (28-32px)
+.spacex-body-large (15px)
+.spacex-body (14px)
+.spacex-body-small (13px)
 
 /* Layout */
 .spacex-container
@@ -141,6 +148,8 @@ Trex.so는 **SpaceX와 X.com의 디자인 언어**를 채택하여 현대적이�
 .spacex-section
 .spacex-grid
 ```
+
+**📝 자세한 내용은 `X_COM_FONT_SIZE_UPDATE.md` 참조**
 
 ---
 
